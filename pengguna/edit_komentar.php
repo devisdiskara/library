@@ -1,27 +1,26 @@
 <?php
 session_start();
-include '../koneksi.php'; // Ganti dengan file koneksi Anda
+include '../koneksi.php';
 
-// Debugging: Periksa apakah parameter tersedia
-if (!isset($_POST['id_komentar']) || !isset($_POST['id_buku'])) {
-    die("Missing comment ID or book ID.");
+// Periksa parameter
+if (!isset($_POST['id_komentar'], $_POST['id_buku'], $_POST['isi_komentar'], $_POST['rating'])) {
+    die("Missing required fields.");
 }
 
 $id_komentar = $_POST['id_komentar'];
 $id_buku = $_POST['id_buku'];
 $isi_komentar = $_POST['isi_komentar'];
+$rating = floatval($_POST['rating']); // pastikan nilai rating berupa float
 
-// Validasi ID komentar dan ID buku
+// Validasi
 if (is_numeric($id_komentar) && is_numeric($id_buku)) {
-    // Periksa apakah pengguna sudah login
     if (isset($_SESSION['id_pengguna'])) {
-        // Update komentar
-        $query = "UPDATE komentar SET isi_komentar = ? WHERE id_komentar = ?";
+        // Update isi komentar dan rating
+        $query = "UPDATE komentar SET isi_komentar = ?, rating = ? WHERE id_komentar = ? AND id_pengguna = ?";
         $stmt = $koneksi->prepare($query);
-        $stmt->bind_param("si", $isi_komentar, $id_komentar);
+        $stmt->bind_param("sdii", $isi_komentar, $rating, $id_komentar, $_SESSION['id_pengguna']);
 
         if ($stmt->execute()) {
-            // Redirect ke halaman detail buku setelah berhasil mengedit
             header("Location: detail_buku.php?id_buku=" . $id_buku);
             exit();
         } else {

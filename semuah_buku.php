@@ -52,58 +52,74 @@ session_start();
 
         <!-- Buku Section -->
         <section id="portfolio" class="portfolio">
-            <div class="container" data-aos="fade-up">
+        <div class="container" data-aos="fade-up">
 
-                <div class="section-header">
-                    <h2>All Ebooks</h2>
-                    <p>Select a category to view available ebooks</p>
-                </div>
-
-                <!-- Kategori Filter -->
-                <div class="row" data-aos="fade-up" data-aos-delay="100">
-                    <div class="col-lg-12 d-flex justify-content-center">
-                        <ul id="portfolio-flters">
-                            <li data-filter="*" class="filter-active">All</li>
-                            <?php
-                            $query_kategori = "SELECT * FROM kategori";
-                            $result_kategori = mysqli_query($koneksi, $query_kategori);
-
-                            while ($row_kategori = mysqli_fetch_assoc($result_kategori)) {
-                                echo '<li data-filter=".filter-' . $row_kategori["id_kategori"] . '">' . $row_kategori["nama"] . '</li>';
-                            }
-                            ?>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Buku Grid -->
-                <div class="row gy-4 portfolio-container" data-aos="fade-up" data-aos-delay="200">
-                    <?php
-                    $query_buku = "SELECT buku.*, kategori.nama AS nama_kategori FROM buku INNER JOIN kategori ON buku.id_kategori = kategori.id_kategori";
-                    $result_buku = mysqli_query($koneksi, $query_buku);
-
-                    if (mysqli_num_rows($result_buku) > 0) {
-                        while ($row_buku = mysqli_fetch_assoc($result_buku)) {
-                            echo '<div class="col-lg-4 col-md-6 portfolio-item filter-' . $row_buku["id_kategori"] . '">';
-                            echo '<div class="portfolio-wrap">';
-                            echo '<img src="assets/img/ebook/' . $row_buku["gambar_sampul"] . '" class="img-fluid" alt="' . $row_buku["judul"] . '">';
-                            echo '<div class="portfolio-info">';
-                            echo '<h4>' . $row_buku["judul"] . '</h4>';
-                            echo '<p>' . $row_buku["nama_kategori"] . '</p>';
-                            echo '<div class="portfolio-links">';
-                            echo '<a href="assets/img/ebook/' . $row_buku["gambar_sampul"] . '" data-gallery="portfolioGallery" class="portfokio-lightbox" title="' . $row_buku["judul"] . '"><i class="bi bi-plus"></i></a>';
-                            echo '<a href="detail_buku.php?id_buku=' . $row_buku["id_buku"] . '" title="More Details"><i class="bi bi-eye"></i></a>';
-                            echo '</div>';
-                            echo '</div>';
-                            echo '</div>';
-                            echo '</div>';
-                        }
-                    } else {
-                        echo "Tidak ada data buku yang tersedia.";
-                    }
-                    ?>
-                </div>
+            <div class="section-header">
+            <h2>All Ebooks</h2>
+            <p>Select a category to view available ebooks</p>
             </div>
+
+            <style>
+            .portfolio-item .portfolio-wrap img {
+                height: 500px;
+                object-fit: cover;
+            }
+
+            .portfolio-item {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            </style>
+
+            <!-- Kategori Filter -->
+            <div class="row" data-aos="fade-up" data-aos-delay="100">
+            <div class="col-lg-12 d-flex justify-content-center">
+                <ul id="portfolio-flters">
+                <li data-filter="*" class="filter-active">All</li>
+                <?php
+                $query_kategori = "
+                SELECT kategori.id_kategori, kategori.nama, COUNT(buku.id_buku) AS jumlah_buku 
+                FROM kategori 
+                LEFT JOIN buku ON kategori.id_kategori = buku.id_kategori 
+                GROUP BY kategori.id_kategori, kategori.nama 
+                HAVING jumlah_buku > 0
+                ";
+                $result_kategori = mysqli_query($koneksi, $query_kategori);
+
+                while ($row_kategori = mysqli_fetch_assoc($result_kategori)) {
+                    echo '<li data-filter=".filter-' . $row_kategori["id_kategori"] . '">' . $row_kategori["nama"] . '</li>';
+                }
+                ?>
+                </ul>
+            </div>
+            </div>
+
+            <!-- Buku Grid -->
+            <div class="row gy-4 portfolio-container" data-aos="fade-up" data-aos-delay="200">
+            <?php
+            $query_buku = "SELECT buku.*, kategori.nama AS nama_kategori FROM buku INNER JOIN kategori ON buku.id_kategori = kategori.id_kategori";
+            $result_buku = mysqli_query($koneksi, $query_buku);
+
+            if (mysqli_num_rows($result_buku) > 0) {
+                while ($row_buku = mysqli_fetch_assoc($result_buku)) {
+                    echo '<div class="col-lg-4 col-md-6 portfolio-item filter-' . $row_buku["id_kategori"] . '">';
+                    echo '<div class="portfolio-wrap">';
+                    echo '<img src="assets/img/ebook/' . $row_buku["gambar_sampul"] . '" class="img-fluid" alt="' . $row_buku["judul"] . '">';
+                    echo '<div class="portfolio-info">';
+                    echo '<div class="portfolio-links">';
+                    echo '<a href="detail_buku.php?id_buku=' . $row_buku["id_buku"] . '" title="More Details"><i class="bi bi-eye"></i></a>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
+                    echo '</div>';
+                }
+            } else {
+                echo "Tidak ada data buku yang tersedia.";
+            }
+            ?>
+            </div>
+        </div>
         </section><!-- End Buku Section -->
 
     </main><!-- End #main -->
