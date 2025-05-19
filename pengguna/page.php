@@ -147,37 +147,55 @@ $total_komentar = mysqli_num_rows($data1);
 
     <!-- ======= Tempat Buku Populer ======= -->
     <section id="tempat-buku-populer" class="testimonials">
-      <div class="container" data-aos="fade-up">
-        <header class="section-header">
-          <h2>Populer Ebook</h2>
-          <p>Top ebooks across various genres</p>
-        </header>
-        <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="200">
-          <div class="swiper-wrapper">
-            <?php
-            // Lakukan query untuk mengambil data buku populer dengan jumlah unduhan lebih dari 5
-            $query = "SELECT * FROM buku WHERE jumlah_unduhan > 5 ORDER BY jumlah_unduhan DESC LIMIT 5";
-            $result = mysqli_query($koneksi, $query);
+        <div class="container" data-aos="fade-up">
+          <header class="section-header">
+            <h2>Populer Ebook</h2>
+            <p>Top ebooks across various genres</p>
+          </header>
+          <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="200">
+            <div class="swiper-wrapper">
+              <?php
+              $query = "SELECT * FROM buku WHERE jumlah_unduhan > 5 ORDER BY jumlah_unduhan DESC LIMIT 5";
+              $result = mysqli_query($koneksi, $query);
 
-            // Periksa apakah query berhasil dieksekusi
-            if (mysqli_num_rows($result) > 0) {
-              // Loop untuk menampilkan setiap buku populer
-              while ($row = mysqli_fetch_assoc($result)) {
-                echo '<div class="swiper-slide">
-                    <div class="testimonial-item">
-                      <img src="../assets/img/ebook/' . $row["gambar_sampul"] . '" alt="' . $row["judul"] . '" style="max-width: 200px; display: block; margin: 0 auto;"><hr>
-                      <p>' . $row["judul"] . '</p>
-                    </div>
-                  </div><!-- End testimonial item -->';
+              if (mysqli_num_rows($result) > 0) {
+                while ($row = mysqli_fetch_assoc($result)) {
+                  $rating = floatval($row['rating']);
+                  $fullStars = floor($rating);
+                  $halfStars = ($rating - $fullStars) >= 0.5 ? 1 : 0;
+                  $emptyStars = 5 - $fullStars - $halfStars;
+
+                  echo '<div class="swiper-slide">
+                          <div class="testimonial-item">
+                            <img src="../assets/img/ebook/' . $row["gambar_sampul"] . '" alt="' . $row["judul"] . '" style="max-width: 200px; display: block; margin: 0 auto;">
+                            <hr>
+                            <p>' . $row["judul"] . '</p>
+                            <div class="rating">';
+                  
+                  for ($i = 0; $i < $fullStars; $i++) {
+                    echo '<i class="bi bi-star-fill" style="color: #f7c600;"></i>';
+                  }
+
+                  if ($halfStars) {
+                    echo '<i class="bi bi-star-half" style="color: #f7c600;"></i>';
+                  }
+
+                  for ($i = 0; $i < $emptyStars; $i++) {
+                    echo '<i class="bi-star-fill" style="color: black;"></i>';
+                  }
+
+                  echo '</div>
+                          </div>
+                        </div><!-- End testimonial item -->';
+                }
+              } else {
+                echo "Tidak ada buku populer dengan jumlah unduhan lebih dari 5.";
               }
-            } else {
-              echo "Tidak ada buku populer dengan jumlah unduhan lebih dari 5.";
-            }
-            ?>
+              ?>
+            </div>
+            <div class="swiper-pagination"></div>
           </div>
-          <div class="swiper-pagination"></div>
         </div>
-      </div>
     </section><!-- End Tempat Buku Populer -->
 
     <!-- ======= Counts Section ======= -->
@@ -231,6 +249,19 @@ $total_komentar = mysqli_num_rows($data1);
           <h2>ebook collection</h2>
           <p>Explore our comprehensive ebook collection here</p>
         </header>
+        <style>
+          .portfolio-item .portfolio-wrap img {
+            height: 500px;
+            object-fit: cover;
+          }
+
+          /* Optional: Center the animation effect when scrolling */
+          .portfolio-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+        </style>
         <div class="row gy-4 portfolio-container" data-aos="fade-up" data-aos-delay="200">
           <?php
           // Lakukan query untuk mengambil data buku
@@ -242,54 +273,67 @@ $total_komentar = mysqli_num_rows($data1);
             // Variabel untuk menghitung jumlah buku yang ditampilkan
             $counter = 0;
 
-            // Loop untuk menampilkan setiap buku
             while ($row_buku = mysqli_fetch_assoc($result_buku)) {
-              // Tampilkan buku
-              echo '<div class="col-lg-4 col-md-6 portfolio-item filter-app">
+              // Tentukan jumlah bintang penuh, setengah dan kosong
+              $rating = $row_buku["rating"];
+              $fullStars = floor($rating);  // Bintang penuh
+              $halfStars = ($rating - $fullStars >= 0.5) ? 1 : 0;  // Bintang setengah
+              $emptyStars = 5 - $fullStars - $halfStars;  // Bintang kosong
+            
+              echo '<div class="col-lg-4 col-md-6 portfolio-item filter-app" data-aos="fade-up" data-aos-delay="' . (100 * $counter) . '">
                 <div class="portfolio-wrap">
                   <img src="../assets/img/ebook/' . $row_buku["gambar_sampul"] . '" class="img-fluid" alt="' . $row_buku["judul"] . '">
                   <div class="portfolio-info">
+                    <div class="rating" style="position: absolute; top: 10px; left: 10px; color: #000000; padding: 5px 10px; border-radius: 5px; font-weight: bold;">
+                      ';
+            
+              for ($i = 0; $i < $fullStars; $i++) {
+                echo '<i class="bi bi-star-fill" style="color: #f7c600;"></i>';
+              }
+            
+              if ($halfStars) {
+                echo '<i class="bi bi-star-half" style="color: #f7c600;"></i>';
+              }
+            
+              for ($i = 0; $i < $emptyStars; $i++) {
+                echo '<i class="bi-star-fill" style="color: black;"></i>';
+              }         
+              echo '</div>
                     <div class="portfolio-links">
                       <a href="detail_buku.php?id_buku=' . $row_buku["id_buku"] . '" title="More Details"><i class="bi bi-eye"></i></a>
                     </div>
                   </div>
                 </div>
               </div>';
-
-              // Tambahkan 1 ke counter setiap kali buku ditampilkan
+            
               $counter++;
-
-              // Hentikan loop jika sudah menampilkan 5 buku
+           
               if ($counter >= 5) {
                 break;
               }
             }
-
-            // Tampilkan kartu "Lihat Semua Buku" jika ada lebih dari 5 buku
+            
             if ($counter >= 5) {
-              echo '<div class="col-lg-4 col-md-6 portfolio-item filter-app">
+              echo '<div class="col-lg-4 col-md-6 portfolio-item filter-app" data-aos="fade-up" data-aos-delay="' . (100 * $counter) . '">
                 <div class="portfolio-wrap">
                   <img src="../assets/img/ebook/book.png" class="img-fluid" alt="Lihat Semua Buku">
                   <div class="portfolio-info">
                     <h4>View All Ebooks</h4>
                     <p>Click here to view all ebooks</p>
                     <div class="portfolio-links">
-                      <a href="../pengguna/semuah_buku.php" title="Lihat Semua Buku"><i class="bi bi-three-dots"></i></a>
+                      <a href="semuah_buku.php" title="Lihat Semua Buku"><i class="bi bi-three-dots"></i></a>
                     </div>
                   </div>
                 </div>
               </div>';
             }
           } else {
-            echo "Tidak ada data buku yang tersedia.";
+            echo "No ebook data available.";
           }
           ?>
         </div>
       </div>
-    </section>
-    <!-- End Daftar Buku Section -->
-
-    
+    </section><!-- End Daftar Buku Section -->   
 
     <!-- ======= Contact Section ======= -->
     <section id="kontak" class="contact">
