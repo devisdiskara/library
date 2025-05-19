@@ -50,7 +50,7 @@
         <li class="nav-item navbar-dropdown dropdown-user dropdown">
           <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
             <div class="avatar avatar-online">
-              <img src="../assets/img/profile/<?php echo htmlspecialchars($_SESSION['profile']); ?>" width="35" height="35" alt class="w-px-40 h-auto rounded-circle" />
+              <img src="../assets/img/profile/<?php echo htmlspecialchars($_SESSION['profile']); ?>" alt style="object-fit: cover; width: 35px; height: 35px; border-radius: 50%;" />
             </div>
           </a>
           <ul class="dropdown-menu dropdown-menu-end">
@@ -59,7 +59,7 @@
                 <div class="d-flex">
                   <div class="flex-shrink-0 me-3">
                     <div class="avatar avatar-online">
-                      <img src="../assets/img/profile/<?php echo htmlspecialchars($_SESSION['profile']); ?>" width="35" height="35" alt class="w-px-40 h-auto rounded-circle" />
+                      <img src="../assets/img/profile/<?php echo htmlspecialchars($_SESSION['profile']); ?>" style="object-fit: cover; width: 35px; height: 35px; border-radius: 50%;" />
                     </div>
                   </div>
                   <div class="flex-grow-1">
