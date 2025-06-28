@@ -24,73 +24,140 @@
   <link href="assets/vendor/remixicon/remixicon.css" rel="stylesheet">
   <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
 
+  <!-- TailwindCSS (Tambahan untuk konten baru) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
   <!-- Template Main CSS File -->
   <link href="assets/css/style.css" rel="stylesheet">
-
-  <!-- =======================================================
-  * Template Name: FlexStart
-  * Updated: Mar 13 2024 with Bootstrap v5.3.3
-  * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
-  * Author: BootstrapMade.com
-  * License: https://bootstrapmade.com/license/
-  ======================================================== -->
 </head>
 
 <body>
 
   <?php include 'header.php' ?>
 
-  <main id="main">
-
-    <!-- ======= Breadcrumbs ======= -->
-    <section class="breadcrumbs">
-      <div class="container">
-
-        <ol>
-          <li><a href="page.php">Beranda</a></li>
-          <li>Tentang</li>
-        </ol>
-        <h2>Tentang</h2>
-
+  <main>
+    <!-- Hero Section -->
+    <section class="relative flex flex-col items-center justify-center h-screen px-4 overflow-hidden bg-blue-500 md:px-16">
+      <img src="/img/bg.png" alt="Background Hero" class="absolute top-0 left-0 object-cover w-full h-full -z-10" />
+      <div class="z-10 flex flex-col justify-center gap-6 text-center max-w-7xl">
+        <img src="assetsab/img/logo_rounded.png" alt="Logo" class="md:h-[58px] h-[36px] w-auto object-contain mx-auto">
+        <h1 class="text-3xl font-bold leading-snug text-white md:text-5xl">
+          Platform untuk membaca dan berbagi eBook di mana saja, kapan saja
+        </h1>
+        <p class="max-w-5xl mx-auto mt-3 text-base font-normal text-gray-100 md:text-lg">
+          Kami menyediakan berbagai eBook dari beragam kategori mulai dari yang gratis hingga versi
+          berbayar. Yang gratis bisa langsung kamu baca atau unduh, sedangkan eBook berbayar akan diarahkan
+          ke toko resmi atau ecommerce terpercaya untuk membelinya.
+        </p>
       </div>
-    </section><!-- End Breadcrumbs -->
+    </section>
 
-    <section class="inner-page">
-      <div class="container">
-        <h1 style="font-weight: bold; color: #012970;">Tentang FlexiLibrary</h1>
-        <hr>
-        <div class="about-content">
-          <p>FlexiLibrary adalah destinasi utama Anda untuk mengunduh eBook digital secara gratis. Kami percaya bahwa pengetahuan harus dapat diakses oleh siapapun, dimanapun dan, kapanpun.</p>
-
-          <h2 style="font-weight: bold; color: #012970;">Visi Kami</h2>
-          <p>Kami membayangkan dunia di mana setiap orang memiliki akses yang setara terhadap pengetahuan dan kreativitas manusia. Melalui eBook gratis, kami ingin menginspirasi dan memberdayakan siapa saja untuk belajar dan berkembang.</p>
-
-          <h2 style="font-weight: bold; color: #012970;">Misi Kami</h2>
-          <p>Misi kami adalah mendemokratisasi akses terhadap ilmu pengetahuan serta menumbuhkan minat baca dan belajar di kalangan masyarakat luas.</p>
-
-          <h2 style="font-weight: bold; color: #012970;">Apa yang Kami Tawarkan</h2>
-          <ul>
-            <li><strong>Koleksi Lengkap:</strong> Ribuan eBook dari berbagai genre seperti fiksi, non-fiksi, sains, teknologi, sejarah, hingga pengembangan diri.</li>
-            <li><strong>Gratis:</strong> Semua eBook dapat diunduh secara gratis tanpa biaya.</li>
-            <li><strong>Mudah Digunakan:</strong> Desain situs yang simpel dan mudah dinavigasi.</li>
-            <li><strong>Pembaruan Berkala:</strong> Koleksi eBook terus diperbarui secara rutin.</li>
-          </ul>
-
-          <h2 style="font-weight: bold; color: #012970;">Mengapa FlexiLibrary?</h2>
-          <ul>
-            <li><strong>Bebas Biaya:</strong> Nikmati akses ilmu tanpa mengeluarkan uang.</li>
-            <li><strong>Beragam Genre:</strong> Temukan bacaan sesuai minat Anda.</li>
-            <li><strong>Aman dan Legal:</strong> Semua eBook tersedia secara sah dan aman diakses.</li>
-          </ul>
-
-          <h2 style="font-weight: bold; color: #012970;">Kontribusi Anda</h2>
-          <p>Kami terbuka untuk masukan dan kontribusi Anda. Jika memiliki saran buku atau ingin ikut serta memperluas koleksi kami, silakan hubungi kami. Bersama, kita bisa menjadikan FlexiLibrary sumber belajar yang lebih kaya untuk semua.</p>
+    <!-- Misi -->
+    <section class="bg-[#012970] text-white py-16 px-4 md:px-0 md:rounded-t-[72px] rounded-t-[42px] -mt-28 relative w-full mx-auto">
+      <h2 class="mb-10 text-2xl font-semibold text-center md:text-3xl">Misi Kami</h2>
+      <div class="flex flex-col justify-center max-w-5xl gap-6 mx-auto md:flex-row">
+        <div class="flex-1 p-6 font-medium text-center text-blue-900 bg-blue-200 rounded-lg">
+          Mempermudah akses literasi digital untuk semua
+        </div>
+        <div class="flex-1 p-6 font-medium text-center text-blue-900 bg-pink-100 rounded-lg">
+          Mendorong budaya berbagi pengetahuan secara aman dan etis
+        </div>
+        <div class="flex-1 p-6 font-medium text-center text-blue-900 bg-yellow-200 rounded-lg">
+          Mendukung para penulis dan penerbit lewat distribusi eBook berbayar
         </div>
       </div>
     </section>
 
+    <!-- Fitur -->
+    <section class="flex flex-col items-center gap-10 px-4 mx-auto my-20 bg-white md:px-0 md:flex-row max-w-7xl">
+      <div class="w-full max-w-md mx-auto md:w-1/2">
+        <img src="img/ilust_reading.png" alt="Illustration About Us" class="w-full" />
+      </div>
+      <div class="w-full space-y-8 md:w-1/2">
+        <h2 class="text-2xl font-semibold text-[#16375B] md:text-3xl text-center md:text-left">
+          Fitur-Fitur Flexilibrary
+        </h2>
+        <ol class="flex flex-col gap-6">
+          <li class="flex gap-4">
+            <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 text-sm font-semibold text-white bg-blue-500 rounded-full">1</div>
+            <div>
+              <p class="font-semibold text-[#16375B]">Upload eBook Kamu</p>
+              <p class="max-w-xl text-sm text-gray-600">Bagikan karya atau koleksi digitalmu dengan mudah. Cukup unggah file, isi detail singkat, dan eBook kamu siap ditemukan banyak orang.</p>
+            </div>
+          </li>
+          <li class="flex gap-4">
+            <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 text-sm font-semibold text-white bg-blue-500 rounded-full">2</div>
+            <div>
+              <p class="font-semibold text-[#16375B]">Download & Baca eBook</p>
+              <p class="max-w-xl text-sm text-gray-600">Temukan eBook dari berbagai kategori. Kamu bisa langsung membacanya secara online atau mengunduhnya untuk dibaca nanti.</p>
+            </div>
+          </li>
+          <li class="flex gap-4">
+            <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 text-sm font-semibold text-white bg-blue-500 rounded-full">3</div>
+            <div>
+              <p class="font-semibold text-[#16375B]">Simpan eBook Favorit</p>
+              <p class="max-w-xl text-sm text-gray-600">Simpan ke daftar favoritmu dan akses kapan saja dari dashboard pribadi.</p>
+            </div>
+          </li>
+          <li class="flex gap-4">
+            <div class="flex items-center justify-center flex-shrink-0 w-8 h-8 text-sm font-semibold text-white bg-blue-500 rounded-full">4</div>
+            <div>
+              <p class="font-semibold text-[#16375B]">Gunakan Fitur Pencarian</p>
+              <p class="max-w-xl text-sm text-gray-600">Cari berdasarkan judul, penulis, atau kategori. Cepat dan relevan.</p>
+            </div>
+          </li>
+        </ol>
+      </div>
+    </section>
 
-  </main><!-- End #main -->
+    <!-- FAQ -->
+    <section class="px-4 py-10 bg-gray-50">
+      <h2 class="mb-8 text-2xl font-bold text-center text-blue-900">Pertanyaan Umum</h2>
+      <div class="max-w-4xl mx-auto space-y-3">
+        <div class="rounded-lg shadow-sm bg-white">
+          <button onclick="toggleFAQ(0)" class="flex items-center justify-between w-full px-4 py-4 font-semibold text-left text-blue-900 hover:bg-gray-50">
+            Apakah semua eBook di Flexilibrary bisa diunduh gratis?
+            <span class="text-xl transition-transform transform rotate-180 faq-icon">−</span>
+          </button>
+          <div class="px-4 pb-3 text-gray-600 faq-content">Tidak semua. Flexilibrary menyediakan eBook gratis dan berbayar. Kamu bisa langsung mengunduh yang gratis, sementara eBook berbayar akan diarahkan ke toko resmi untuk pembelian.</div>
+        </div>
+        <div class="rounded-lg shadow-sm bg-white">
+          <button onclick="toggleFAQ(1)" class="flex items-center justify-between w-full px-4 py-4 font-semibold text-left text-blue-900 hover:bg-gray-50">
+            Apakah saya bisa mengunggah eBook sendiri?
+            <span class="text-xl faq-icon">+</span>
+          </button>
+          <div class="hidden px-4 pb-3 text-gray-600 faq-content">Ya, kamu bisa mengunggah eBook melalui halaman unggah. Pastikan eBook sesuai dengan ketentuan Flexilibrary.</div>
+        </div>
+        <div class="rounded-lg shadow-sm bg-white">
+          <button onclick="toggleFAQ(2)" class="flex items-center justify-between w-full px-4 py-4 font-semibold text-left text-blue-900 hover:bg-gray-50">
+            Bagaimana cara menyimpan eBook favorit?
+            <span class="text-xl faq-icon">+</span>
+          </button>
+          <div class="hidden px-4 pb-3 text-gray-600 faq-content">Kamu bisa menandai eBook favorit dengan tombol “Simpan” pada halaman detail eBook untuk akses cepat di dashboard pribadi.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ JS -->
+    <script>
+      function toggleFAQ(index) {
+        const contents = document.querySelectorAll('.faq-content');
+        const icons = document.querySelectorAll('.faq-icon');
+        contents.forEach((content, i) => {
+          if (i === index) {
+            const isVisible = !content.classList.contains('hidden');
+            content.classList.toggle('hidden', isVisible);
+            icons[i].textContent = isVisible ? '+' : '−';
+            icons[i].classList.toggle('rotate-180', !isVisible);
+          } else {
+            content.classList.add('hidden');
+            icons[i].textContent = '+';
+            icons[i].classList.remove('rotate-180');
+          }
+        });
+      }
+    </script>
+  </main>
 
   <?php include 'footer.php' ?>
 
@@ -107,7 +174,5 @@
 
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
-
 </body>
-
 </html>
