@@ -45,7 +45,7 @@ if (isset($_GET['id_buku'])) {
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Ebooks Details - Flexilibrary</title>
+    <title>Detail Ebook - Flexilibrary</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -86,10 +86,10 @@ if (isset($_GET['id_buku'])) {
         <section class="breadcrumbs">
             <div class="container">
                 <ol>
-                    <li><a href="index.php">Home</a></li>
-                    <li>ebook details</li>
+                    <li><a href="index.php">Beranda</a></li>
+                    <li>Detail Ebook</li>
                 </ol>
-                <h2>ebook details</h2>
+                <h2>Detail Ebook</h2>
             </div>
         </section><!-- End Breadcrumbs -->
 
@@ -103,17 +103,17 @@ if (isset($_GET['id_buku'])) {
                                 <?php
                                 if (isset($row_buku)) {
                                     echo '<div class="swiper-slide">';
-                                    echo '<img src="../assets/img/ebook/' . $row_buku["gambar_sampul"] . '" alt="' . $row_buku["judul"] . '" style="max-width: 60%; max-height: 20%;">';
+                                    echo '<img src="../assets/img/ebook/' . $row_buku["gambar_sampul"] . '" alt="' . $row_buku["judul"] . '" style="width: 100%; max-width: 300px; height: auto; aspect-ratio: 3 / 4; object-fit: cover; border: 1px solid #ccc; box-shadow: 0 0 5px rgba(0,0,0,0.1);">';
                                     echo '</div>';
                                 } else {
-                                    echo "<p>Buku tidak ditemukan.</p>";
+                                    echo "<p>ebook tidak ditemukan.</p>";
                                 }
                                 ?>
                             </div>
                             <div class="swiper-pagination"></div>
                         </div>
                         <?php if (isset($path_file)) : ?>
-                            <a href="<?php echo $path_file; ?>" id="download-button" class="btn btn-primary rounded-0" style="margin-top: 20px;">
+                            <a href="download.php?id_buku=<?php echo $row_buku['id_buku']; ?>" class="btn btn-primary rounded-0" style="margin-top: 20px;">
                                 <i class="bi bi-download"></i> Download PDF
                             </a>
                         <?php endif; ?>
@@ -140,7 +140,7 @@ if (isset($_GET['id_buku'])) {
                     </div>
                     <div class="col-lg-5">
                         <div class="portfolio-info">
-                            <h3>Ebook Information</h3>
+                            <h3>Informasi Ebook</h3>
                             <ul>
                                 <?php
                                 if (isset($row_buku)) {
@@ -148,14 +148,14 @@ if (isset($_GET['id_buku'])) {
                                     echo '<li><strong>Kategori</strong>: ' . $row_buku["nama_kategori"] . '</li>';
                                     echo '<li><strong>Pengarang</strong>: ' . $row_buku["pengarang"] . '</li>';
                                 } else {
-                                    echo "<p>Buku tidak ditemukan.</p>";
+                                    echo "<p>Ebook tidak ditemukan.</p>";
                                 }
                                 ?>
                             </ul>
                             <i id="favorite-icon" class="bi <?php echo $is_favorited ? 'bi-heart-fill' : 'bi-heart'; ?>" style="font-size: 1rem; margin-top: 20px; cursor: pointer; color: <?php echo $is_favorited ? 'blue' : 'black'; ?>;"></i>
                         </div>
                         <div class="portfolio-description">
-                            <h2>Description</h2>
+                            <h2>Deskripsi</h2>
                             <p>
                                 <?php
                                 if (isset($row_buku)) {
@@ -170,6 +170,18 @@ if (isset($_GET['id_buku'])) {
                 </div>
             </div>
         </section><!-- Ebook Details Section -->
+
+        <!-- Tambahkan ini sebelum penutup </body> -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const dropdownTrigger = document.getElementById('dropdownMenuButton');
+            if (dropdownTrigger) {
+                new bootstrap.Dropdown(dropdownTrigger);
+            }
+        });
+        </script>
+
 
         <script>
             document.getElementById('favorite-icon').addEventListener('click', function() {
@@ -223,15 +235,13 @@ if (isset($_GET['id_buku'])) {
             });
         </script>
 
-
-
         <!-- Link untuk memuat ikon Bootstrap -->
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.4.0/font/bootstrap-icons.min.css">
 
 
         <!-- Mungkin Anda Tertarik -->
         <div style="text-align: center; margin-top: 30px;">
-            <h3>You may be interested in</h3>
+            <h3>Anda mungkin tertarik dengan</h3>
             <hr style="width: 50%; margin: auto;">
         </div>
 
@@ -328,7 +338,7 @@ if (isset($_GET['id_buku'])) {
                 </div>';
                 }
             } else {
-                echo "Tidak ada data buku yang tersedia.";
+                echo "Tidak ada data ebook yang serupa.";
             }
             ?>
             </div>
@@ -336,212 +346,168 @@ if (isset($_GET['id_buku'])) {
         </section><!-- End Portfolio Section -->
 
         <?php
-        // Pastikan koneksi dan session sudah dimulai sebelum bagian ini
-        if (isset($_GET['id_buku']) && is_numeric($_GET['id_buku'])) {
-            $id_buku = (int)$_GET['id_buku'];
+if (isset($_GET['id_buku']) && is_numeric($_GET['id_buku'])) {
+    $id_buku = (int)$_GET['id_buku'];
 
-            // Ambil komentar utama (parent_id NULL atau 0)
-            $query_komentar = "SELECT komentar.*, pengguna.nama_pengguna, pengguna.profile 
-                FROM komentar
-                INNER JOIN pengguna ON komentar.id_pengguna = pengguna.id_pengguna
-                WHERE komentar.id_buku = $id_buku AND (komentar.parent_id IS NULL OR komentar.parent_id = 0)
-                ORDER BY komentar.tanggal_komentar DESC";
-            $result_komentar = mysqli_query($koneksi, $query_komentar);
-        ?>
+    $query_komentar = "SELECT komentar.*, pengguna.nama_pengguna, pengguna.profile, komentar.rating
+        FROM komentar
+        INNER JOIN pengguna ON komentar.id_pengguna = pengguna.id_pengguna
+        WHERE komentar.id_buku = $id_buku
+        ORDER BY komentar.tanggal_komentar DESC";
+    $result_komentar = mysqli_query($koneksi, $query_komentar);
+?>
 
-        <section>
-            <div class="container my-5 py-5">
-                <div class="row d-flex justify-content-center">
-                    <div class="col-md-12 col-lg-10 col-xl-8">
+<section>
+<div class="container my-5 py-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-12 col-lg-10 col-xl-8">
 
-                        <?php
-                        if (isset($_GET['id_buku']) && is_numeric($_GET['id_buku'])) {
-                            $id_buku = (int)$_GET['id_buku'];
+            <?php
+            if ($result_komentar && mysqli_num_rows($result_komentar) > 0) {
+                while ($row = mysqli_fetch_assoc($result_komentar)) {
+                    $id_komentar = (int)$row["id_komentar"];
+                    $id_pengguna_komentar = (int)$row["id_pengguna"];
+                    $nama_pengguna = htmlspecialchars($row["nama_pengguna"]);
+                    $isi_komentar = htmlspecialchars($row["isi_komentar"]);
+                    $tanggal_komentar = date('d M Y, H:i', strtotime($row["tanggal_komentar"]));
+                    $profile_image = !empty($row["profile"]) ? "../assets/img/profile/" . htmlspecialchars($row["profile"]) : "https://mdbcdn.b-cdn.net/img/Photos/Avatars/default-avatar.webp";
+                    $rating = (float)$row['rating'];
 
-                            $query_komentar = "SELECT komentar.*, pengguna.nama_pengguna, pengguna.profile, komentar.rating
-                                FROM komentar
-                                INNER JOIN pengguna ON komentar.id_pengguna = pengguna.id_pengguna
-                                WHERE komentar.id_buku = $id_buku AND (komentar.parent_id IS NULL OR komentar.parent_id = 0)
-                                ORDER BY komentar.tanggal_komentar DESC";
-                            $result_komentar = mysqli_query($koneksi, $query_komentar);
-
-                            if ($result_komentar && mysqli_num_rows($result_komentar) > 0) {
-                                while ($row = mysqli_fetch_assoc($result_komentar)) {
-                                    $id_komentar = (int)$row["id_komentar"];
-                                    $id_pengguna_komentar = (int)$row["id_pengguna"];
-                                    $nama_pengguna = htmlspecialchars($row["nama_pengguna"]);
-                                    $isi_komentar = htmlspecialchars($row["isi_komentar"]);
-                                    $tanggal_komentar = date('d M Y, H:i', strtotime($row["tanggal_komentar"]));
-                                    $profile_image = !empty($row["profile"]) ? "../assets/img/profile/" . htmlspecialchars($row["profile"]) : "https://mdbcdn.b-cdn.net/img/Photos/Avatars/default-avatar.webp";
-                                    $rating = (float)$row['rating'];
-
-                                    $query_reply = "SELECT komentar.*, pengguna.nama_pengguna, pengguna.profile 
-                                        FROM komentar
-                                        INNER JOIN pengguna ON komentar.id_pengguna = pengguna.id_pengguna
-                                        WHERE komentar.parent_id = $id_komentar
-                                        ORDER BY komentar.tanggal_komentar ASC";
-                                    $result_reply = mysqli_query($koneksi, $query_reply);
-
-                                    echo '
-                                    <div style="display: flex; gap: 30px; margin-bottom: 40px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-                                        <div style="flex: 1;">
-                                            <div style="display: flex; align-items: center; gap: 15px;">
-                                                <img class="rounded-circle" src="' . $profile_image . '" alt="avatar" width="60" height="60" />
-                                                <div>
-                                                    <h6 class="fw-bold text-primary mb-1">' . $nama_pengguna . '</h6>
-                                                    <p class="text-muted small mb-0">Shared publicly - ' . $tanggal_komentar . '</p>
-                                                </div>
-                                            </div>
-                                            <div style="margin: 10px 0;">';
-                                            
-                                    $fullStars = floor($rating);
-                                    $halfStar = ($rating - $fullStars) >= 0.5;
-                                    $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0);
-
-                                    for ($i = 0; $i < $fullStars; $i++) echo '<i class="bi bi-star-fill text-warning"></i>';
-                                    if ($halfStar) echo '<i class="bi bi-star-half text-warning"></i>';
-                                    for ($i = 0; $i < $emptyStars; $i++) echo '<i class="bi bi-star text-warning"></i>';
-
-                                    echo '</div>
-                                            <p style="white-space: pre-line;">' . nl2br($isi_komentar) . '</p>
-                                            <div class="small d-flex justify-content-start" style="gap: 20px; align-items: center;">
-                                                <a href="#" class="d-flex align-items-center text-decoration-none text-muted">
-                                                    <i class="bi bi-hand-thumbs-up-fill text-primary mb-1 me-1"></i>Like
-                                                </a>';
-
-                                    if (isset($_SESSION['id_pengguna']) && (int)$_SESSION['id_pengguna'] === $id_pengguna_komentar) {
-                                        echo '
-                                                <a href="#" class="d-flex align-items-center text-decoration-none text-muted" data-bs-toggle="modal" data-bs-target="#editKomentarModal" 
-                                                data-id_komentar="' . $id_komentar . '" data-isi_komentar="' . htmlspecialchars($isi_komentar, ENT_QUOTES) . '">
-                                                    <i class="bi bi-pencil-fill text-primary mb-1 me-1"></i>Edit
-                                                </a>
-                                                <a href="#" class="d-flex align-items-center text-decoration-none text-muted" data-bs-toggle="modal" data-bs-target="#hapusKomentarModal" 
-                                                data-id_komentar="' . $id_komentar . '">
-                                                    <i class="bi bi-trash-fill me-2 text-primary mb-1"></i>Hapus
-                                                </a>';
-                                    }
-                                    echo '</div>
-                                        </div>
-                                        <div style="flex: 1; padding: 15px; border-radius: 8px; max-height: 100%;">';
-
-                                    if ($result_reply && mysqli_num_rows($result_reply) > 0) {
-                                        while ($rep = mysqli_fetch_assoc($result_reply)) {
-                                            $nama_reply = htmlspecialchars($rep["nama_pengguna"]);
-                                            $isi_reply = htmlspecialchars($rep["isi_komentar"]);
-                                            $tanggal_reply = date('d M Y, H:i', strtotime($rep["tanggal_komentar"]));
-                                            $profile_reply = !empty($rep["profile"]) ? "../assets/img/profile/" . htmlspecialchars($rep["profile"]) : "https://mdbcdn.b-cdn.net/img/Photos/Avatars/default-avatar.webp";
-
-                                            echo '
-                                            <div style="margin-bottom: 15px; border-bottom: 1px solid #ddd; padding-bottom: 10px; box-shadow: 0 2px 6px rgba(0,0,0,0.08); border-radius: 6px;">
-                                                <div style="display: flex; align-items: center; gap: 10px;">
-                                                    <img class="rounded-circle" src="' . $profile_reply . '" alt="avatar" width="40" height="40" />
-                                                    <div>
-                                                        <h6 class="fw-bold text-secondary mb-1" style="font-size: 0.9rem;">' . $nama_reply . '</h6>
-                                                        <p class="text-muted small mb-0" style="font-size: 0.75rem;">' . $tanggal_reply . '</p>
-                                                    </div>
-                                                </div>
-                                                <p style="margin-left: 50px; white-space: pre-line;">' . nl2br($isi_reply) . '</p>
-                                            </div>';
-                                        }
-                                    }
-                                    echo '</div>
-                                    </div>';
-                                }
-                            } else {
-                                echo '<p class="text-center">There are no comments for this book yet.</p>';
-                            }
-                        } else {
-                            echo '<p class="text-center">ID buku tidak valid.</p>';
-                        }
-                        ?>
-                        <?php if (isset($_SESSION['id_pengguna'])) : ?>
-                            <form id="comment-form" method="post" action="tambah_komentar.php" style="background: transparent; margin-top: 20px;">
-                                <input type="hidden" name="id_buku" value="<?php echo htmlspecialchars($id_buku ?? ''); ?>">
-                                <input type="hidden" name="rating" id="rating-value" value="0">
-
-                                <div class="d-flex gap-3 align-items-center"> <!-- Tambah align-items-start -->
-                                    <img class="rounded-circle" src="<?php echo isset($_SESSION['profile']) ? '../assets/img/profile/' . htmlspecialchars($_SESSION['profile']) : 'https://mdbcdn.b-cdn.net/img/Photos/Avatars/default-avatar.webp'; ?>" alt="avatar" width="50" height="50" />
-
-                                    <div style="flex: 1;">
-                                        <div id="star-rating" style="font-size: 24px; color: #ddd; cursor: pointer; user-select: none; margin-bottom: 5px; display: inline-block;">
-                                            <?php for ($i = 1; $i <= 5; $i++) : ?>
-                                                <i class="bi bi-star" data-value="<?php echo $i; ?>"></i>
-                                            <?php endfor; ?>
-                                        </div>
-
-                                        <textarea id="isi_komentar" name="isi_komentar" class="form-control" rows="3" placeholder="Tulis komentar..." required style="resize: vertical;"></textarea>
-                                    </div>
+                    echo '
+                    <div style="display: flex; gap: 30px; margin-bottom: 40px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <img class="rounded-circle" src="' . $profile_image . '" alt="avatar" width="60" height="60" />
+                                <div>
+                                    <h6 class="fw-bold text-primary mb-1">' . $nama_pengguna . '</h6>
+                                    <p class="text-muted small mb-0">Shared publicly - ' . $tanggal_komentar . '</p>
                                 </div>
+                            </div>
+                            <div style="margin: 10px 0;">';
 
-                                <div class="mt-2 text-end">
-                                    <button type="submit" class="btn btn-primary btn-sm">Kirim Komentar</button>
-                                    <button type="reset" class="btn btn-outline-primary btn-sm ms-2">Batal</button>
-                                </div>
-                            </form>
+                    $fullStars = floor($rating);
+                    $halfStar = ($rating - $fullStars) >= 0.5;
+                    $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0);
 
-                            <script>
-                                const stars = document.querySelectorAll('#star-rating i');
-                                const ratingInput = document.getElementById('rating-value');
+                    for ($i = 0; $i < $fullStars; $i++) echo '<i class="bi bi-star-fill text-warning"></i>';
+                    if ($halfStar) echo '<i class="bi bi-star-half text-warning"></i>';
+                    for ($i = 0; $i < $emptyStars; $i++) echo '<i class="bi bi-star text-warning"></i>';
 
-                                let selectedRating = 0;
+                    echo '</div>
+                            <p style="white-space: pre-line;">' . nl2br($isi_komentar) . '</p>
+                            <div class="small d-flex justify-content-start" style="gap: 20px; align-items: center;">
+                                <a href="#" class="d-flex align-items-center text-decoration-none text-muted">
+                                    <i class="bi bi-hand-thumbs-up-fill text-primary mb-1 me-1"></i>Like
+                                </a>';
 
-                                stars.forEach((star, idx) => {
-                                    star.addEventListener('mousemove', (e) => {
-                                        const rect = star.getBoundingClientRect();
-                                        const mouseX = e.clientX;
-                                        const starMiddle = rect.left + rect.width / 2;
-                                        let hoverValue = idx + 1;
+                    if (isset($_SESSION['id_pengguna']) && (int)$_SESSION['id_pengguna'] === $id_pengguna_komentar) {
+                        echo '
+                                <a href="#" class="d-flex align-items-center text-decoration-none text-muted" data-bs-toggle="modal" data-bs-target="#editKomentarModal" 
+                                data-id_komentar="' . $id_komentar . '" data-isi_komentar="' . htmlspecialchars($isi_komentar, ENT_QUOTES) . '">
+                                    <i class="bi bi-pencil-fill text-primary mb-1 me-1"></i>Edit
+                                </a>
+                                <a href="#" class="d-flex align-items-center text-decoration-none text-muted" data-bs-toggle="modal" data-bs-target="#hapusKomentarModal" 
+                                data-id_komentar="' . $id_komentar . '">
+                                    <i class="bi bi-trash-fill me-2 text-primary mb-1"></i>Hapus
+                                </a>';
+                    }
 
-                                        if (mouseX < starMiddle) {
-                                            hoverValue -= 0.5;
-                                        }
-                                        highlightStars(hoverValue);
-                                    });
+                    echo '</div></div></div>';
+                }
+            } else {
+                echo '<p class="text-center">Belum ada komentar untuk buku ini.</p>';
+            }
+            ?>
 
-                                    star.addEventListener('click', (e) => {
-                                        const rect = star.getBoundingClientRect();
-                                        const mouseX = e.clientX;
-                                        const starMiddle = rect.left + rect.width / 2;
-                                        selectedRating = idx + 1;
+            <?php if (isset($_SESSION['id_pengguna'])) : ?>
+                <!-- Form komentar tetap -->
+                <form id="comment-form" method="post" action="tambah_komentar.php" style="background: transparent; margin-top: 20px;">
+                    <input type="hidden" name="id_buku" value="<?php echo htmlspecialchars($id_buku ?? ''); ?>">
+                    <input type="hidden" name="rating" id="rating-value" value="0">
 
-                                        if (mouseX < starMiddle) {
-                                            selectedRating -= 0.5;
-                                        }
+                    <div class="d-flex gap-3 align-items-center">
+                        <img class="rounded-circle" src="<?php echo isset($_SESSION['profile']) ? '../assets/img/profile/' . htmlspecialchars($_SESSION['profile']) : 'https://mdbcdn.b-cdn.net/img/Photos/Avatars/default-avatar.webp'; ?>" alt="avatar" width="50" height="50" />
 
-                                        ratingInput.value = selectedRating;
-                                        highlightStars(selectedRating);
-                                    });
+                        <div style="flex: 1;">
+                            <div id="star-rating" style="font-size: 24px; color: #ddd; cursor: pointer; user-select: none; margin-bottom: 5px; display: inline-block;">
+                                <?php for ($i = 1; $i <= 5; $i++) : ?>
+                                    <i class="bi bi-star" data-value="<?php echo $i; ?>"></i>
+                                <?php endfor; ?>
+                            </div>
 
-                                    star.addEventListener('mouseout', () => {
-                                        highlightStars(selectedRating);
-                                    });
-                                });
-
-                                function highlightStars(rating) {
-                                    stars.forEach((star, idx) => {
-                                        const starValue = idx + 1;
-                                        if (starValue <= rating) {
-                                            star.className = 'bi bi-star-fill text-warning';
-                                        } else if (starValue - 0.5 === rating) {
-                                            star.className = 'bi bi-star-half text-warning';
-                                        } else {
-                                            star.className = 'bi bi-star';
-                                            star.classList.remove('text-warning');
-                                        }
-                                    });
-                                }
-                            </script>
-                        <?php else : ?>
-                            <p class="text-center">Silakan <a href="login.php">login</a> untuk menulis komentar.</p>
-                        <?php endif; ?>
+                            <textarea id="isi_komentar" name="isi_komentar" class="form-control" rows="3" placeholder="Tulis komentar..." required style="resize: vertical;"></textarea>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </section>
 
-        <?php } else {
-            echo '<p class="text-center">ID buku tidak valid.</p>';
-        } ?>
+                    <div class="mt-2 text-end">
+                        <button type="submit" class="btn btn-primary btn-sm">Kirim Komentar</button>
+                        <button type="reset" class="btn btn-outline-primary btn-sm ms-2">Batal</button>
+                    </div>
+                </form>
+
+                <script>
+                    const stars = document.querySelectorAll('#star-rating i');
+                    const ratingInput = document.getElementById('rating-value');
+                    let selectedRating = 0;
+
+                    stars.forEach((star, idx) => {
+                        star.addEventListener('mousemove', (e) => {
+                            const rect = star.getBoundingClientRect();
+                            const mouseX = e.clientX;
+                            const starMiddle = rect.left + rect.width / 2;
+                            let hoverValue = idx + 1;
+
+                            if (mouseX < starMiddle) {
+                                hoverValue -= 0.5;
+                            }
+                            highlightStars(hoverValue);
+                        });
+
+                        star.addEventListener('click', (e) => {
+                            const rect = star.getBoundingClientRect();
+                            const mouseX = e.clientX;
+                            const starMiddle = rect.left + rect.width / 2;
+                            selectedRating = idx + 1;
+
+                            if (mouseX < starMiddle) {
+                                selectedRating -= 0.5;
+                            }
+
+                            ratingInput.value = selectedRating;
+                            highlightStars(selectedRating);
+                        });
+
+                        star.addEventListener('mouseout', () => {
+                            highlightStars(selectedRating);
+                        });
+                    });
+
+                    function highlightStars(rating) {
+                        stars.forEach((star, idx) => {
+                            const starValue = idx + 1;
+                            if (starValue <= rating) {
+                                star.className = 'bi bi-star-fill text-warning';
+                            } else if (starValue - 0.5 === rating) {
+                                star.className = 'bi bi-star-half text-warning';
+                            } else {
+                                star.className = 'bi bi-star';
+                                star.classList.remove('text-warning');
+                            }
+                        });
+                    }
+                </script>
+            <?php else : ?>
+                <p class="text-center">Silakan <a href="login.php">login</a> untuk menulis komentar.</p>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+</section>
+
+<?php } else {
+    echo '<p class="text-center">ID buku tidak valid.</p>';
+} ?>
+
 
         <!-- Modal Edit Komentar -->
         <div class="modal fade" id="editKomentarModal" tabindex="-1" aria-labelledby="editKomentarModalLabel" aria-hidden="true">

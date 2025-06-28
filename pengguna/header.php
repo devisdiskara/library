@@ -35,16 +35,16 @@
 
     <nav id="navbar" class="navbar">
       <ul>
-        <li><a class="nav-link scrollto active" href="index.php">Home</a></li>
-        <li><a class="nav-link scrollto" href="index.php#about">About</a></li>
-        <li><a class="nav-link scrollto" href="index.php#tempat-buku-populer">Populer Ebook</a></li>
-        <li><a class="nav-link scrollto" href="index.php#daftar-buku">Ebook collection</a></li>
-        <li><a class="nav-link scrollto" href="#kontak">Contact</a></li>
+        <li><a class="nav-link scrollto active" href="index.php">Beranda</a></li>
+        <li><a class="nav-link scrollto" href="index.php#about">Tentang</a></li>
+        <li><a class="nav-link scrollto" href="index.php#tempat-buku-populer">Ebook Terpopuler</a></li>
+        <li><a class="nav-link scrollto" href="index.php#daftar-buku">Koleksi Ebook</a></li>
+        <li><a class="nav-link scrollto" href="#kontak">Kontak</a></li>
         <li><a class="nav-link scrollto" href="favorite.php"><i class="bi bi-heart-fill" style="font-size: 19px;" title="Favorite ebook"></i></a></li>
         <li><a class="nav-link scrollto" href="history_download.php"><i class="bi bi-file-arrow-down-fill" style="font-size: 19px;" title="download history"></i></a></li>
         <?php if (isset($_SESSION['login_pa'])) : ?>
         <?php else : ?>
-          <li><a class="getstarted scrollto" href="../pengguna/">Get Started</a></li>
+          <li><a class="getstarted scrollto" href="../pengguna/">Gabung Sekarang</a></li>
         <?php endif; ?>
 
         <li class="nav-item navbar-dropdown dropdown-user dropdown">
@@ -61,7 +61,7 @@
                     <div class="avatar avatar-online">
                       <img src="../assets/img/profile/<?php echo htmlspecialchars($_SESSION['profile']); ?>" style="object-fit: cover; width: 35px; height: 35px; border-radius: 50%;" />
                     </div>
-                  </div>
+                  </div>                  
                   <div class="flex-grow-1">
                     <span style="font-size: 20px;" class="d-block"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
                   </div>
@@ -75,20 +75,11 @@
               <a class="dropdown-item" href="profile.php">
                 <span class="d-flex align-items-center align-middle">
                   <i class="flex-shrink-0 bx bx-user me-2"></i>
-                  <span class="flex-grow-1 align-middle">My Profile</span>
+                  <span class="flex-grow-1 align-middle">Profile Saya</span>
                 </span>
               </a>
             </li>
-            <li>
-              <a class="dropdown-item" href="notifikasi.php">
-                <span class="d-flex align-items-center align-middle">
-                  <i class="flex-shrink-0 bx bx-message me-2"></i>
-                  <span class="flex-grow-1 align-middle">Message</span>
-                  <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
-                </span>
-              </a>
-            </li>
-            <li>
+            <!-- <li>
               <a class="dropdown-item" href="#">
                 <span class="d-flex align-items-center align-middle">
                   <i class="flex-shrink-0 bx bx-bell me-2"></i>
@@ -96,15 +87,15 @@
                   <span class="flex-shrink-0 badge badge-center rounded-pill bg-danger w-px-20 h-px-20">4</span>
                 </span>
               </a>
-            </li>
+            </li> -->
             <li>
               <div class="dropdown-divider"></div>
             </li>
             <li>
-              <a class="dropdown-item" href="../index.php?logout">
+              <a class="dropdown-item" href="../index.php">
                 <span class="d-flex align-items-center align-middle">
                   <i class="flex-shrink-0 bx bx-power-off me-2"></i>
-                  <span class="flex-grow-1 align-middle">Logout</span>
+                  <span class="flex-grow-1 align-middle">Keluar</span>
                 </span>
               </a>
             </li>

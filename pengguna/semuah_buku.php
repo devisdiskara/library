@@ -43,10 +43,10 @@ session_start();
         <section class="breadcrumbs">
             <div class="container">
                 <ol>
-                    <li><a href="index.php">Home</a></li>
-                    <li>All Ebook</li>
+                    <li><a href="index.php">Beranda</a></li>
+                    <li>Semua Ebook</li>
                 </ol>
-                <h2>All Ebook</h2>
+                <h2>Semua Ebook</h2>
             </div>
         </section><!-- End Breadcrumbs -->
 
@@ -55,8 +55,8 @@ session_start();
       <div class="container" data-aos="fade-up">
 
         <div class="section-header">
-          <h2>All Ebooks</h2>
-          <p>Select a category to view available ebooks</p>
+          <h2>Semua Ebook</h2>
+          <p>Pilih kategori untuk melihat ebook yang tersedia</p>
         </div>
 
         <style>
@@ -76,7 +76,7 @@ session_start();
         <div class="row" data-aos="fade-up" data-aos-delay="100">
           <div class="col-lg-12 d-flex justify-content-center">
             <ul id="portfolio-flters">
-              <li data-filter="*" class="filter-active">All</li>
+              <li data-filter="*" class="filter-active">Semua</li>
               <?php
               $query_kategori = "
               SELECT kategori.id_kategori, kategori.nama, COUNT(buku.id_buku) AS jumlah_buku 
@@ -134,7 +134,7 @@ session_start();
               echo '</div>';
             }
           } else {
-            echo "Tidak ada data buku yang tersedia.";
+            echo "Tidak ada data ebook yang tersedia.";
           }
           ?>
         </div>

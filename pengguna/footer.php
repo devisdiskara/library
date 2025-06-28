@@ -9,7 +9,7 @@
             <img src="assets/img/favicon/log.ico" alt="">
             <span>Flexilibrary</span>
           </a>
-          <p>Find and download your favorite ebooks for free. We provide a variety of genres and categories to meet your reading needs.</p>
+          <p>Flexilibrary Temukan dan unduh ebook favorit Anda secara gratis. Kami menyediakan berbagai genre dan kategori untuk memenuhi kebutuhan membaca Anda.</p>
           <div class="social-links mt-3">
             <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
             <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
@@ -17,26 +17,26 @@
         </div>
 
         <div class="col-lg-2 col-6 footer-links">
-          <h4>Our menu</h4>
+          <h4>Menu kami</h4>
           <ul>
-            <li><a href="index.php">Home</a></li>
-            <li><a href="index.php#about">About</a></li>
-            <li><a href="index.php#tempat-buku-populer">Populer Ebook</a></li>
-            <li><a href="index.php#daftar-buku">ebook collection</a></li>
-            <li><a href="index.php#kontak">contact</a></li>
+            <li><a href="index.php">Beranda</a></li>
+            <li><a href="index.php#about">Tentang</a></li>
+            <li><a href="index.php#tempat-buku-populer">Ebook Terpopuler</a></li>
+            <li><a href="index.php#daftar-buku">Koleksi Ebook</a></li>
+            <li><a href="index.php#kontak">Kontak</a></li>
           </ul>
         </div>
 
         <div class="col-lg-2 col-6 footer-links">
-          <h4>Other Menu</h4>
+          <h4>Menu Lainnya</h4>
           <ul>
-            <li><a href="pengguna/">Favorite ebook</a></li>
-            <li><a href="pengguna/">download history</a></li>
+            <li><a href="pengguna/">Ebook favorit</a></li>
+            <li><a href="pengguna/">History Download</a></li>
           </ul>
         </div>
 
         <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
-          <h4>CONTACT US</h4>
+          <h4>Kontak Kami</h4>
           <p>
             <strong>Instagram:</strong> flexilibrary<br>
             <strong>Email:</strong> flexilibrary@gmail.com<br>

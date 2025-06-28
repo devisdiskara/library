@@ -5,14 +5,24 @@ session_start();
 $id_pengguna = $_SESSION['id_pengguna'];
 
 $query = "
-    SELECT buku.id_buku, buku.judul, buku.pengarang, buku.gambar_sampul, buku.jumlah_unduhan, buku.rating, buku.tanggal_upload 
-    FROM favorit 
-    INNER JOIN buku ON favorit.id_buku = buku.id_buku 
-    WHERE favorit.id_pengguna = $id_pengguna";
+    SELECT 
+        b.id_buku,
+        b.judul,
+        b.pengarang,
+        b.gambar_sampul,
+        b.tanggal_upload,
+        (SELECT COUNT(*) FROM unduhan WHERE id_buku = b.id_buku) AS jumlah_unduhan,
+        IFNULL(ROUND(AVG(k.rating), 1), 0) AS rating
+    FROM favorit f
+    JOIN buku b ON f.id_buku = b.id_buku
+    LEFT JOIN komentar k ON k.id_buku = b.id_buku
+    WHERE f.id_pengguna = $id_pengguna
+    GROUP BY b.id_buku
+";
 
 $result = mysqli_query($koneksi, $query);
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -126,7 +136,7 @@ $result = mysqli_query($koneksi, $query);
                     <?php if (mysqli_num_rows($result) > 0) : ?>
                         <!-- Tampilkan daftar buku yang diunduh -->
                     <?php else : ?>
-                        <p class="no-downloads">There are no books stored in favorites yet.</p>
+                        <p class="no-downloads">Belum ada ebook yang disimpan di favorit.</p>
                     <?php endif; ?>
                 </div>
                 <table class="table" border="1">

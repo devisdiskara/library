@@ -65,43 +65,44 @@ $total_komentar = mysqli_num_rows($data1);
       <div class="container">
 
         <ol>
-          <li><a href="page.php">Home</a></li>
-          <li>About</li>
+          <li><a href="page.php">Beranda</a></li>
+          <li>Tentang</li>
         </ol>
-        <h2>About</h2>
+        <h2>Tentang</h2>
 
       </div>
     </section><!-- End Breadcrumbs -->
 
     <section class="inner-page">
       <div class="container">
-        <h1 style="font-weight: bold; color: #012970; ">About FlexiLibrary</h1>
+        <h1 style="font-weight: bold; color: #012970;">Tentang FlexiLibrary</h1>
         <hr>
         <div class="about-content">
-          <p>Welcome to FlexiLibrary, your premier destination for free digital ebook downloads. At Flexi Library, we believe that knowledge should be accessible to everyone, regardless of location or financial status. Our mission is to provide a large collection of high-quality ebooks from various genres and fields, available for free download by our users.</p>
-          <h2 style="font-weight: bold; color: #012970;">Our Mission</h2>
-          <p>Our mission is to democratize access to knowledge and encourage a love of reading and learning. We seek to remove barriers to education and give everyone the opportunity to explore new worlds, ideas and perspectives through the power of books.</p>
+          <p>FlexiLibrary adalah destinasi utama Anda untuk mengunduh eBook digital secara gratis. Kami percaya bahwa pengetahuan harus dapat diakses oleh siapapun, dimanapun dan, kapanpun.</p>
 
-          <h2 style="font-weight: bold; color: #012970;">What We Offer</h2>
+          <h2 style="font-weight: bold; color: #012970;">Visi Kami</h2>
+          <p>Kami membayangkan dunia di mana setiap orang memiliki akses yang setara terhadap pengetahuan dan kreativitas manusia. Melalui eBook gratis, kami ingin menginspirasi dan memberdayakan siapa saja untuk belajar dan berkembang.</p>
+
+          <h2 style="font-weight: bold; color: #012970;">Misi Kami</h2>
+          <p>Misi kami adalah mendemokratisasi akses terhadap ilmu pengetahuan serta menumbuhkan minat baca dan belajar di kalangan masyarakat luas.</p>
+
+          <h2 style="font-weight: bold; color: #012970;">Apa yang Kami Tawarkan</h2>
           <ul>
-            <li><strong>Extensive Collection:</strong> Our library has a wide range of ebooks, from classic literature and fiction to academic texts and personal development books.</li>
-            <li><strong>Free Download:</strong> All our ebooks are available for free download.</li>
-            <li><strong>User Friendly Interface:</strong> Our website is designed to be intuitive and easy to navigate.</li>
-            <li><strong>Regular Updates:</strong> We are constantly updating our collection with new ebooks.</li>
+            <li><strong>Koleksi Lengkap:</strong> Ribuan eBook dari berbagai genre seperti fiksi, non-fiksi, sains, teknologi, sejarah, hingga pengembangan diri.</li>
+            <li><strong>Gratis:</strong> Semua eBook dapat diunduh secara gratis tanpa biaya.</li>
+            <li><strong>Mudah Digunakan:</strong> Desain situs yang simpel dan mudah dinavigasi.</li>
+            <li><strong>Pembaruan Berkala:</strong> Koleksi eBook terus diperbarui secara rutin.</li>
           </ul>
 
-          <h2 style="font-weight: bold; color: #012970;">Mengapa Memilih Flexi Library?</h2>
+          <h2 style="font-weight: bold; color: #012970;">Mengapa FlexiLibrary?</h2>
           <ul>
-            <li><strong>Free of Charge:</strong> Enjoy access to a wealth of knowledge without spending a dime.</li>
-            <li><strong>Diverse Genres:</strong> Our extensive catalog includes genres such as fiction, non-fiction, science, technology, history, romance, mystery, and many more.</li>
-            <li><strong>Community-Driven:</strong> We value our reader community and continually strive to improve our offerings based on feedback and user requests.</li>
-            <li><strong>Safe and Legal:</strong> All ebooks available on Flexi Library are legally obtained and shared.</li>
+            <li><strong>Bebas Biaya:</strong> Nikmati akses ilmu tanpa mengeluarkan uang.</li>
+            <li><strong>Beragam Genre:</strong> Temukan bacaan sesuai minat Anda.</li>
+            <li><strong>Aman dan Legal:</strong> Semua eBook tersedia secara sah dan aman diakses.</li>
           </ul>
-          <h2 style="font-weight: bold; color: #012970;">Our Vision</h2>
-          <p>At Flexi Library, we envision a world where everyone has equal access to the wealth of human knowledge and creativity. By providing free ebooks, we hope to inspire and empower individuals to pursue their passions, improve their lives, and contribute to a more informed and enlightened society.</p>
 
-          <h2 style="font-weight: bold; color: #012970;">Get Involved</h2>
-          <p>We encourage our users to get involved and help us grow our library. If you have suggestions for new books or features, or if you would like to contribute to our collection, please contact us. Together, we can make Flexi Library a richer resource for everyone.</p>
+          <h2 style="font-weight: bold; color: #012970;">Kontribusi Anda</h2>
+          <p>Kami terbuka untuk masukan dan kontribusi Anda. Jika memiliki saran buku atau ingin ikut serta memperluas koleksi kami, silakan hubungi kami. Bersama, kita bisa menjadikan FlexiLibrary sumber belajar yang lebih kaya untuk semua.</p>
         </div>
       </div>
     </section>

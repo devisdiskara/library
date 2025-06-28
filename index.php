@@ -23,7 +23,7 @@ $total_komentar = mysqli_num_rows($data1);
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>Home - FlexiLibrary</title>
+  <title>Beranda - FlexiLibrary</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -64,12 +64,12 @@ $total_komentar = mysqli_num_rows($data1);
     <div class="container">
       <div class="row">
         <div class="col-lg-6 d-flex flex-column justify-content-center">
-          <h1 data-aos="fade-up">Welcome to FlexiLibrary!</h1>
-          <h2 data-aos="fade-up" data-aos-delay="400">a digital library that provides free access to thousands of eBooks from various genres and well-known authors.</h2>
+          <h1 data-aos="fade-up">Flexilibrary</h1>
+          <h2 data-aos="fade-up" data-aos-delay="400">Perpustakaan digital yang memberikan akses gratis ke ribuan eBook dari berbagai genre dan penulis ternama.</h2>
           <div data-aos="fade-up" data-aos-delay="600">
             <div class="text-center text-lg-start">
               <a href="pengguna/" class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
-                <span>Get Started</span>
+                <span>Gabung Sekarang</span>
                 <i class="bi bi-arrow-right"></i>
               </a>
             </div>
@@ -93,14 +93,14 @@ $total_komentar = mysqli_num_rows($data1);
 
           <div class="col-lg-6 d-flex flex-column justify-content-center" data-aos="fade-up" data-aos-delay="200">
             <div class="content">
-              <h3>WHO WE ARE</h3>
-              <h2>Welcome to FlexiLibrary,</h2>
+              <h3>Siapa Kami</h3>
+              <h2>Selamat datang di FlexiLibrary,</h2>
               <p>
-              your ultimate destination for free digital ebook downloads. At Flexi Library, we believe that knowledge should be accessible to everyone, regardless of location or financial status. Our mission is to provide a large collection of high-quality ebooks from various genres and fields, which are available for free download by our users.
+              Tempat terbaik Anda untuk mengunduh eBook digital secara gratis. Di FlexiLibrary, kami percaya bahwa pengetahuan seharusnya dapat diakses oleh siapapun, kapanpun dan dimanapun. Misi kami adalah menyediakan koleksi besar eBook berkualitas tinggi dari berbagai genre dan bidang, yang dapat diunduh secara gratis oleh para pengguna kami.
               </p>
               <div class="text-center text-lg-start">
                 <a href="about.php" class="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center">
-                  <span>Read More</span>
+                  <span>Baca selengkapnya</span>
                   <i class="bi bi-arrow-right"></i>
                 </a>
               </div>
@@ -120,8 +120,8 @@ $total_komentar = mysqli_num_rows($data1);
     <section id="tempat-buku-populer" class="testimonials">
         <div class="container" data-aos="fade-up">
           <header class="section-header">
-            <h2>Populer Ebook</h2>
-            <p>Top ebooks across various genres</p>
+            <h2>E-book Terpopuler</h2>
+            <p>E-book teratas dari berbagai genre</p>
           </header>
           <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="200">
             <div class="swiper-wrapper">
@@ -160,7 +160,7 @@ $total_komentar = mysqli_num_rows($data1);
                         </div><!-- End testimonial item -->';
                 }
               } else {
-                echo "Tidak ada buku populer dengan jumlah unduhan lebih dari 5.";
+                echo "Tidak ada ebook populer dengan jumlah unduhan lebih dari 5.";
               }
               ?>
             </div>
@@ -178,7 +178,7 @@ $total_komentar = mysqli_num_rows($data1);
               <i class="bi bi-people"></i>
               <div>
                 <span data-purecounter-start="0" data-purecounter-end="<?php echo $total_pengguna; ?>" data-purecounter-duration="1" class="purecounter"></span>
-                <p>Users</p>
+                <p>Pengguna</p>
               </div>
             </div>
           </div>
@@ -187,7 +187,7 @@ $total_komentar = mysqli_num_rows($data1);
               <i class="bi bi-book"></i>
               <div>
                 <span data-purecounter-start="0" data-purecounter-end="<?php echo $total_buku; ?>" data-purecounter-duration="1" class="purecounter"></span>
-                <p>Ebooks</p>
+                <p>Ebook</p>
               </div>
             </div>
           </div>
@@ -196,7 +196,7 @@ $total_komentar = mysqli_num_rows($data1);
               <i class="bi bi-tags"></i>
               <div>
                 <span data-purecounter-start="0" data-purecounter-end="<?php echo $total_kategori; ?>" data-purecounter-duration="1" class="purecounter"></span>
-                <p>Categories</p>
+                <p>Kategori</p>
               </div>
             </div>
           </div>
@@ -205,7 +205,7 @@ $total_komentar = mysqli_num_rows($data1);
               <i class="bi bi-chat-dots"></i>
               <div>
                 <span data-purecounter-start="0" data-purecounter-end="<?php echo $total_komentar; ?>" data-purecounter-duration="1" class="purecounter"></span>
-                <p>Comments</p>
+                <p>Komentar</p>
               </div>
             </div>
           </div>
@@ -213,12 +213,12 @@ $total_komentar = mysqli_num_rows($data1);
       </div>
     </section><!-- End Counts Section -->
 
-    <!-- ======= Daftar Buku Section ======= -->
+    <!-- ======= Daftar ebook Section ======= -->
     <section id="daftar-buku" class="portfolio" style="overflow-y: auto;">
       <div class="container" data-aos="fade-up">
         <header class="section-header">
-          <h2>ebook collection</h2>
-          <p>Explore our comprehensive ebook collection here</p>
+          <h2>koleksi Ebook</h2>
+          <p>Jelajahi koleksi ebook lengkap kami di sini</p>
         </header>
         <style>
           .portfolio-item .portfolio-wrap img {
@@ -235,21 +235,21 @@ $total_komentar = mysqli_num_rows($data1);
         </style>
         <div class="row gy-4 portfolio-container" data-aos="fade-up" data-aos-delay="200">
           <?php
-          // Lakukan query untuk mengambil data buku
+
           $query_buku = "SELECT * FROM buku";
           $result_buku = mysqli_query($koneksi, $query_buku);
 
-          // Periksa apakah query berhasil dieksekusi
+
           if (mysqli_num_rows($result_buku) > 0) {
-            // Variabel untuk menghitung jumlah buku yang ditampilkan
+
             $counter = 0;
 
             while ($row_buku = mysqli_fetch_assoc($result_buku)) {
-              // Tentukan jumlah bintang penuh, setengah dan kosong
+
               $rating = $row_buku["rating"];
-              $fullStars = floor($rating);  // Bintang penuh
-              $halfStars = ($rating - $fullStars >= 0.5) ? 1 : 0;  // Bintang setengah
-              $emptyStars = 5 - $fullStars - $halfStars;  // Bintang kosong
+              $fullStars = floor($rating); 
+              $halfStars = ($rating - $fullStars >= 0.5) ? 1 : 0;  
+              $emptyStars = 5 - $fullStars - $halfStars;  
             
               echo '<div class="col-lg-4 col-md-6 portfolio-item filter-app" data-aos="fade-up" data-aos-delay="' . (100 * $counter) . '">
                 <div class="portfolio-wrap">
@@ -287,24 +287,24 @@ $total_komentar = mysqli_num_rows($data1);
             if ($counter >= 5) {
               echo '<div class="col-lg-4 col-md-6 portfolio-item filter-app" data-aos="fade-up" data-aos-delay="' . (100 * $counter) . '">
                 <div class="portfolio-wrap">
-                  <img src="assets/img/ebook/book.png" class="img-fluid" alt="Lihat Semua Buku">
+                  <img src="assets/img/ebook/book.png" class="img-fluid" alt="Lihat Semua ebook">
                   <div class="portfolio-info">
-                    <h4>View All Ebooks</h4>
-                    <p>Click here to view all ebooks</p>
+                    <h4>Lihat Semua Ebook</h4>
+                    <p>Klik di sini untuk lihat semua ebook</p>
                     <div class="portfolio-links">
-                      <a href="semuah_buku.php" title="Lihat Semua Buku"><i class="bi bi-three-dots"></i></a>
+                      <a href="semuah_buku.php" title="Lihat Semua ebook"><i class="bi bi-three-dots"></i></a>
                     </div>
                   </div>
                 </div>
               </div>';
             }
           } else {
-            echo "No ebook data available.";
+            echo "Tidak ada data e-book yang tersedia";
           }
           ?>
         </div>
       </div>
-    </section><!-- End Daftar Buku Section -->
+    </section><!-- End Daftar ebook Section -->
 
 
     <!-- ======= Team Section ======= -->
@@ -432,8 +432,8 @@ $total_komentar = mysqli_num_rows($data1);
       <div class="container" data-aos="fade-up">
 
         <header class="section-header">
-          <h2>Contact us</h2>
-          <p>Contact and Support</p>
+          <h2>Hubungi kami</h2>
+          <p>Kontak dan Dukungan</p>
         </header>
 
         <div class="row gy-4">
@@ -444,7 +444,7 @@ $total_komentar = mysqli_num_rows($data1);
               <div class="col-md-6">
                 <div class="info-box">
                   <i class="bi bi-envelope"></i>
-                  <h3>Email Us</h3>
+                  <h3>Email</h3>
                   <p>flexilibrary@gmail.com</p>
                 </div>
               </div>
@@ -474,7 +474,7 @@ $total_komentar = mysqli_num_rows($data1);
           </div>
 
           <div class="col-lg-6">
-            <form id="contact-form" action="https://formspree.io/f/xwkganbp" method="post" class="php-email-form">
+            <form id="contact-form" action="https://formspree.io/f/xnnvvdrd" method="post" class="php-email-form">
               <div class="row gy-4">
 
                 <div class="col-md-6">
@@ -498,7 +498,7 @@ $total_komentar = mysqli_num_rows($data1);
                   <div id="error-message" style="display: none;"></div>
                   <div id="sent-message" style="display: none;">Terima kasih atas pesan Anda!</div>
                   <div id="thank-you-message" style="display: none; background-color: #4154F1; color: #fff; padding: 10px; border-radius: 5px; margin-top: 10px; position: relative;">Terima kasih atas pesan Anda! <i class="bi bi-x" id="close-thank-you" style="cursor: pointer; position: absolute; top: 5px; right: 5px;"></i></div><br>
-                  <button id="submit-button" type="submit">Send Message</button>
+                  <button id="submit-button" type="submit">Kirim Message</button>
                 </div>
 
               </div>

@@ -3,52 +3,52 @@
 include '../koneksi.php';
 session_start();
 
-// Pastikan sesi username sudah diset
-if (!isset($_SESSION['username'])) {
+// Gunakan id_pengguna sebagai acuan utama
+if (!isset($_SESSION['id_pengguna'])) {
   die("Sesi belum diset. Silakan login terlebih dahulu.");
 }
 
-// Ambil username dari sesi
-$username = $_SESSION['username'];
+$id_pengguna = $_SESSION['id_pengguna'];
 
-// Query untuk mengambil data pengguna berdasarkan username
-$query = "SELECT username, bio, username, negara, email, profile, facebook, instagram FROM pengguna WHERE username = ?";
+// Ambil data pengguna berdasarkan ID
+$query = "SELECT nama_pengguna, username, bio, negara, email, profile, facebook, instagram FROM pengguna WHERE id_pengguna = ?";
 $stmt = mysqli_prepare($koneksi, $query);
-mysqli_stmt_bind_param($stmt, "s", $username);
+mysqli_stmt_bind_param($stmt, "i", $id_pengguna);
 mysqli_stmt_execute($stmt);
 $result = mysqli_stmt_get_result($stmt);
 
-// Ambil data pengguna dari hasil query
-if (mysqli_num_rows($result) > 0) {
-  $row = mysqli_fetch_assoc($result);
-
-  $username = $row['username'];
-  $bio = $row['bio'];
-  $username = $row['username'];
-  $negara = $row['negara'];
-  $email = $row['email'];
+if ($row = mysqli_fetch_assoc($result)) {
+  $nama_pengguna   = $row['nama_pengguna'];
+  $username        = $row['username'];
+  $bio             = $row['bio'];
+  $negara          = $row['negara'];
+  $email           = $row['email'];
   $profile_picture = $row['profile'];
-  $facebook_link = $row['facebook'];
-  $instagram_link = $row['instagram'];
+  $facebook_link   = $row['facebook'];
+  $instagram_link  = $row['instagram'];
 
-  // Susun URL gambar profil
+  // URL gambar profil
   $url_gambar_profil = "../assets/img/profile/" . $profile_picture;
 } else {
-  // Jika tidak ada hasil dari query, atur nilai default
-  $username = "Tidak ditemukan";
-  $bio = "Tidak ditemukan";
-  $username = "Tidak ditemukan";
-  $negara = "Tidak ditemukan";
-  $email = "Tidak ditemukan";
-  $url_gambar_profil = "../assets/img/avatars/profile.png"; // Contoh: gambar default jika profil tidak ditemukan
-  $facebook_link = "#"; // Misalnya, link default jika tidak ada
-  $instagram_link = "#"; // Misalnya, link default jika tidak ada
+  // Default jika data tidak ditemukan
+  $nama_pengguna   = "Tidak ditemukan";
+  $username        = "Tidak ditemukan";
+  $bio             = "Tidak ditemukan";
+  $negara          = "Tidak ditemukan";
+  $email           = "Tidak ditemukan";
+  $profile_picture = "profile.png";
+  $facebook_link   = "#";
+  $instagram_link  = "#";
+
+  $url_gambar_profil = "../assets/img/avatars/profile.png";
 }
 
-// Tutup statement dan koneksi database
+// Tutup statement dan koneksi
 mysqli_stmt_close($stmt);
 mysqli_close($koneksi);
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -57,7 +57,7 @@ mysqli_close($koneksi);
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-  <title>My Profile - Flexilibrary</title>
+  <title>Profile Fauzan - Flexilibrary</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
 
@@ -127,196 +127,210 @@ mysqli_close($koneksi);
     <section class="breadcrumbs">
       <div class="container">
         <ol>
-          <li><a href="page.php">Home</a></li>
-          <li>Inner Page</li>
+          <li><a href="page.php">Beranda</a></li>
+          <li>Profile</li>
         </ol>
-        <h2>Inner Page</h2>
+        <h2>Profile</h2>
       </div>
     </section><!-- End Breadcrumbs -->
 
-    <!-- Profile Section -->
-    <section class="section profile">
-      <div class="container">
-        <div class="pagetitle">
-          <h1>Profile</h1>
-          <nav>
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="page.php">Home</a></li>
-              <li class="breadcrumb-item">Users</li>
-              <li class="breadcrumb-item active">Profile</li>
-            </ol>
-          </nav>
-        </div><!-- End Page Title -->
+   <!-- Profile Section -->
+<section class="section profile">
+  <div class="container">
+    <div class="pagetitle">
+      <h1>Profile</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="page.php">Beranda</a></li>
+          <li class="breadcrumb-item">Pengguna</li>
+          <li class="breadcrumb-item active">Profile</li>
+        </ol>
+      </nav>
+    </div>
 
-        <div class="row">
-          <div class="col-xl-4">
-            <div class="card">
-              <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
-                <img src="<?php echo htmlspecialchars($url_gambar_profil); ?>" alt="Profile" class="rounded-circle" width="150" height="150" style="object-fit: cover;">
-                <h2><?php echo htmlspecialchars($username); ?></h2>
-                <div class="social-links mt-2">
-                  <a href="<?php echo htmlspecialchars($facebook_link); ?>" class="facebook"><i class="bi bi-facebook"></i></a>
-                  <a href="<?php echo htmlspecialchars($instagram_link); ?>" class="instagram"><i class="bi bi-instagram"></i></a>
-                </div>
-              </div>
+    <div class="row">
+      <div class="col-xl-4">
+        <div class="card">
+          <div class="card-body profile-card pt-4 d-flex flex-column align-items-center">
+            <img src="<?php echo htmlspecialchars($url_gambar_profil); ?>" alt="Profile" class="rounded-circle" width="150" height="150" style="object-fit: cover;">
+            <h2><?php echo htmlspecialchars($username); ?></h2>
+            <div class="social-links mt-2">
+              <a href="<?php echo htmlspecialchars($facebook_link); ?>" class="facebook"><i class="bi bi-facebook"></i></a>
+              <a href="<?php echo htmlspecialchars($instagram_link); ?>" class="instagram"><i class="bi bi-instagram"></i></a>
             </div>
           </div>
+        </div>
+      </div>
 
-          <div class="col-xl-8">
-            <div class="card">
-              <div class="card-body pt-3">
-                <!-- Bordered Tabs -->
-                <ul class="nav nav-tabs nav-tabs-bordered">
-                  <li class="nav-item">
-                    <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Overview</button>
-                  </li>
-                  <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
-                  </li>
-                  <li class="nav-item">
-                    <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
-                  </li>
-                </ul>
-                <div class="tab-content pt-2">
-                  <div class="tab-pane fade show active profile-overview" id="profile-overview"><br>
-                    <h5 class="card-title">Bio</h5><br>
-                    <p class="col-lg-9 col-md-8"><?php echo htmlspecialchars($bio); ?></p><br>
-                    <h5 class="card-title">Profile Details</h5><br>
-                    <div class="row">
-                      <div class="col-lg-3 col-md-4 label fw-bold text-muted">Full Name</div>
-                      <div class="col-lg-9 col-md-8"><?php echo htmlspecialchars($username); ?></div>
-                    </div><br>
-                    <div class="row">
-                      <div class="col-lg-3 col-md-4 label fw-bold text-muted">Username</div>
-                      <div class="col-lg-9 col-md-8"><?php echo htmlspecialchars($username); ?></div>
-                    </div><br>
-                    <div class="row">
-                      <div class="col-lg-3 col-md-4 label fw-bold text-muted">Country</div>
-                      <div class="col-lg-9 col-md-8"><?php echo htmlspecialchars($negara); ?></div>
-                    </div><br>
-                    <div class="row">
-                      <div class="col-lg-3 col-md-4 label fw-bold text-muted">Email</div>
-                      <div class="col-lg-9 col-md-8"><?php echo htmlspecialchars($email); ?></div>
-                    </div><br>
+      <div class="col-xl-8">
+        <div class="card">
+          <div class="card-body pt-3">
+            <ul class="nav nav-tabs nav-tabs-bordered">
+              <li class="nav-item">
+                <button class="nav-link active" data-bs-toggle="tab" data-bs-target="#profile-overview">Ringkasan</button>
+              </li>
+              <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
+              </li>
+              <li class="nav-item">
+                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Ubah Password</button>
+              </li>
+            </ul>
+
+            <div class="tab-content pt-2">
+              <div class="tab-pane fade show active profile-overview" id="profile-overview"><br>
+                <h5 class="card-title">Bio</h5><br>
+                <p class="col-lg-9 col-md-8"><?php echo htmlspecialchars($bio); ?></p><br>
+                <h5 class="card-title">Detail Profil</h5><br>
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label fw-bold text-muted">Nama Lengkap</div>
+                  <div class="col-lg-9 col-md-8"><?php echo htmlspecialchars($nama_pengguna); ?></div>
+                </div><br>
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label fw-bold text-muted">Username</div>
+                  <div class="col-lg-9 col-md-8"><?php echo htmlspecialchars($username); ?></div>
+                </div><br>
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label fw-bold text-muted">Negara</div>
+                  <div class="col-lg-9 col-md-8"><?php echo htmlspecialchars($negara); ?></div>
+                </div><br>
+                <div class="row">
+                  <div class="col-lg-3 col-md-4 label fw-bold text-muted">Email</div>
+                  <div class="col-lg-9 col-md-8"><?php echo htmlspecialchars($email); ?></div>
+                </div><br>
+              </div>
+
+              <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
+                <form id="editProfileForm" action="edit_profile.php" method="POST" enctype="multipart/form-data">
+                  <div class="row mb-3">
+                    <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Photo Profile</label>
+                    <div class="col-md-8 col-lg-9">
+                      <img src="<?php echo htmlspecialchars($url_gambar_profil); ?>" alt="Profile" id="profileImagePreview" width="150" height="150">
+                      <div class="pt-2">
+                        <input type="file" id="profileImage" name="profileImage" accept="image/*" onchange="previewProfileImage(event)">
+                      </div>
+                    </div>
                   </div>
-                  <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
-                    <!-- Profile Edit Form -->
-                    <form id="editProfileForm" action="edit_profile.php" method="POST" enctype="multipart/form-data">
-                      <div class="row mb-3">
-                        <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
-                        <div class="col-md-8 col-lg-9">
-                          <img src="<?php echo htmlspecialchars($url_gambar_profil); ?>" alt="Profile" id="profileImagePreview" width="150" height="150">
-                          <div class="pt-2">
-                            <input type="file" id="profileImage" name="profileImage" accept="image/*" onchange="previewProfileImage(event)">
-                          </div>
-                        </div>
-                      </div>
-                      <div class="row mb-3">
-                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
-                        <div class="col-md-8 col-lg-9">
-                          <input name="fullName" type="text" class="form-control" id="fullName" value="<?php echo htmlspecialchars($username); ?>">
-                        </div>
-                      </div>
-                      <div class="row mb-3">
-                        <label for="bio" class="col-md-4 col-lg-3 col-form-label">Bio</label>
-                        <div class="col-md-8 col-lg-9">
-                          <textarea name="bio" class="form-control" id="bio" style="height: 100px"><?php echo htmlspecialchars($bio); ?></textarea>
-                        </div>
-                      </div>
-                      <div class="row mb-3">
-                        <label for="country" class="col-md-4 col-lg-3 col-form-label">Country</label>
-                        <div class="col-md-8 col-lg-9">
-                          <input name="country" type="text" class="form-control" id="country" value="<?php echo htmlspecialchars($negara); ?>">
-                        </div>
-                      </div>
-                      <div class="row mb-3">
-                        <label for="email" class="col-md-4 col-lg-3 col-form-label">Email</label>
-                        <div class="col-md-8 col-lg-9">
-                          <input name="email" type="email" class="form-control" id="email" value="<?php echo htmlspecialchars($email); ?>">
-                        </div>
-                      </div>
-                      <div class="row mb-3">
-                        <label for="facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
-                        <div class="col-md-8 col-lg-9">
-                          <input name="facebook" type="text" class="form-control" id="facebook" value="<?php echo htmlspecialchars($facebook_link); ?>">
-                        </div>
-                      </div>
-                      <div class="row mb-3">
-                        <label for="instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
-                        <div class="col-md-8 col-lg-9">
-                          <input name="instagram" type="text" class="form-control" id="instagram" value="<?php echo htmlspecialchars($instagram_link); ?>">
-                        </div>
-                      </div>
-                      <div class="text-center">
-                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                      </div>
-                    </form><!-- End Profile Edit Form -->
+
+                  <div class="row mb-3">
+                    <label for="nama_pengguna" class="col-md-4 col-lg-3 col-form-label">Nama Lengkap</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="nama_pengguna" type="text" class="form-control" id="nama_pengguna" value="<?php echo htmlspecialchars($nama_pengguna); ?>">
+                    </div>
                   </div>
-                  <div class="tab-pane fade pt-3" id="profile-change-password">
-                    <!-- Change Password Form -->
-                    <form action="change_password.php" method="POST">
-                      <div class="row mb-3">
-                        <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Current Password</label>
-                        <div class="col-md-8 col-lg-9 input-group">
-                          <input name="currentPassword" type="password" class="form-control" id="currentPassword" aria-describedby="toggleCurrentPassword">
-                          <button type="button" class="btn btn-outline-secondary" id="toggleCurrentPassword">
-                            <i class="bi bi-eye-slash"></i>
-                          </button>
-                        </div>
-                      </div>
-                      <div class="row mb-3">
-                        <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">New Password</label>
-                        <div class="col-md-8 col-lg-9 input-group">
-                          <input name="newPassword" type="password" class="form-control" id="newPassword" aria-describedby="toggleNewPassword">
-                          <button type="button" class="btn btn-outline-secondary" id="toggleNewPassword">
-                            <i class="bi bi-eye-slash"></i>
-                          </button>
-                        </div>
-                      </div>
-                      <div class="row mb-3">
-                        <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Re-enter New Password</label>
-                        <div class="col-md-8 col-lg-9 input-group">
-                          <input name="renewPassword" type="password" class="form-control" id="renewPassword" aria-describedby="toggleReNewPassword">
-                          <button type="button" class="btn btn-outline-secondary" id="toggleReNewPassword">
-                            <i class="bi bi-eye-slash"></i>
-                          </button>
-                        </div>
-                      </div>
-                      <div class="text-center">
-                        <button type="submit" class="btn btn-primary">Change Password</button>
-                      </div>
-                    </form>
 
-                    <script>
-                      // Script to toggle password visibility
-                      document.addEventListener('DOMContentLoaded', function() {
-                        const togglePassword = document.querySelectorAll('#toggleCurrentPassword, #toggleNewPassword, #toggleReNewPassword');
-                        togglePassword.forEach(btn => {
-                          btn.addEventListener('click', function() {
-                            const input = btn.previousElementSibling;
-                            const icon = btn.querySelector('i');
+                  <div class="row mb-3">
+                    <label for="username" class="col-md-4 col-lg-3 col-form-label">Username</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="username" type="text" class="form-control" id="username" value="<?php echo htmlspecialchars($username); ?>">
+                    </div>
+                  </div>
 
-                            if (input.type === "password") {
-                              input.type = "text";
-                              icon.classList.remove('bi-eye-slash');
-                              icon.classList.add('bi-eye');
-                            } else {
-                              input.type = "password";
-                              icon.classList.remove('bi-eye');
-                              icon.classList.add('bi-eye-slash');
-                            }
-                          });
-                        });
+                  <div class="row mb-3">
+                    <label for="bio" class="col-md-4 col-lg-3 col-form-label">Bio</label>
+                    <div class="col-md-8 col-lg-9">
+                      <textarea name="bio" class="form-control" id="bio" style="height: 100px"><?php echo htmlspecialchars($bio); ?></textarea>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="country" class="col-md-4 col-lg-3 col-form-label">Negara</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="country" type="text" class="form-control" id="country" value="<?php echo htmlspecialchars($negara); ?>">
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="email" class="col-md-4 col-lg-3 col-form-label">Email</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="email" type="email" class="form-control" id="email" value="<?php echo htmlspecialchars($email); ?>">
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="facebook" type="text" class="form-control" id="facebook" value="<?php echo htmlspecialchars($facebook_link); ?>">
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
+                    <div class="col-md-8 col-lg-9">
+                      <input name="instagram" type="text" class="form-control" id="instagram" value="<?php echo htmlspecialchars($instagram_link); ?>">
+                    </div>
+                  </div>
+
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Save Perubahan</button>
+                  </div>
+                </form>
+              </div>
+
+              <div class="tab-pane fade pt-3" id="profile-change-password">
+                <form action="change_password.php" method="POST">
+                  <div class="row mb-3">
+                    <label for="currentPassword" class="col-md-4 col-lg-3 col-form-label">Kata Sandi Saat Ini</label>
+                    <div class="col-md-8 col-lg-9 input-group">
+                      <input name="currentPassword" type="password" class="form-control" id="currentPassword">
+                      <button type="button" class="btn btn-outline-secondary" id="toggleCurrentPassword">
+                        <i class="bi bi-eye-slash"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="newPassword" class="col-md-4 col-lg-3 col-form-label">Password Baru</label>
+                    <div class="col-md-8 col-lg-9 input-group">
+                      <input name="newPassword" type="password" class="form-control" id="newPassword">
+                      <button type="button" class="btn btn-outline-secondary" id="toggleNewPassword">
+                        <i class="bi bi-eye-slash"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="row mb-3">
+                    <label for="renewPassword" class="col-md-4 col-lg-3 col-form-label">Masukkan kembali kata sandi baru</label>
+                    <div class="col-md-8 col-lg-9 input-group">
+                      <input name="renewPassword" type="password" class="form-control" id="renewPassword">
+                      <button type="button" class="btn btn-outline-secondary" id="toggleReNewPassword">
+                        <i class="bi bi-eye-slash"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Ubah Password</button>
+                  </div>
+                </form>
+
+                <script>
+                  document.addEventListener('DOMContentLoaded', function () {
+                    document.querySelectorAll('[id^="toggle"]').forEach(btn => {
+                      btn.addEventListener('click', function () {
+                        const input = btn.previousElementSibling;
+                        const icon = btn.querySelector('i');
+                        if (input.type === "password") {
+                          input.type = "text";
+                          icon.classList.replace('bi-eye-slash', 'bi-eye');
+                        } else {
+                          input.type = "password";
+                          icon.classList.replace('bi-eye', 'bi-eye-slash');
+                        }
                       });
-                    </script>
-                  </div>
-                </div><!-- End Bordered Tabs -->
+                    });
+                  });
+                </script>
+
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
+
   </main><!-- End #main -->
 
   <?php include 'footer.php' ?>

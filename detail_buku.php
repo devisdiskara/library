@@ -22,7 +22,7 @@ $total_komentar = mysqli_num_rows($data1);
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Details Ebook - Flexilibrary</title>
+    <title>Detail Ebook - Flexilibrary</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -63,10 +63,10 @@ $total_komentar = mysqli_num_rows($data1);
         <section class="breadcrumbs">
             <div class="container">
                 <ol>
-                    <li><a href="index.php">Home</a></li>
-                    <li>ebook details</li>
+                    <li><a href="index.php">Beranda</a></li>
+                    <li>Detail Ebook</li>
                 </ol>
-                <h2>ebook details</h2>
+                <h2>Detail Ebook</h2>
             </div>
         </section><!-- End Breadcrumbs -->
 
@@ -81,34 +81,26 @@ $total_komentar = mysqli_num_rows($data1);
                         <div class="portfolio-details-slider swiper">
                             <div class="swiper-wrapper align-items-center">
                                 <?php
-                                // Periksa apakah parameter ID buku ada di URL
                                 if (isset($_GET['id_buku'])) {
-                                    // Ambil ID buku dari URL
                                     $id_buku = $_GET['id_buku'];
 
-                                    // Query untuk mengambil informasi detail buku berdasarkan ID
-                                    // Anda bisa menyesuaikan query ini dengan struktur database Anda
-                                    // Saya mengasumsikan ada tabel 'buku' dengan kolom 'path_file' di dalamnya
                                     $query_buku = "SELECT * FROM buku WHERE id_buku = $id_buku";
                                     $result_buku = mysqli_query($koneksi, $query_buku);
 
-                                    // Periksa apakah query berhasil dieksekusi dan apakah buku ditemukan
                                     if ($result_buku && mysqli_num_rows($result_buku) > 0) {
-                                        // Ambil data buku dari hasil query
+
                                         $row_buku = mysqli_fetch_assoc($result_buku);
 
-                                        // Ambil path_file dari hasil query
                                         $path_file = $row_buku['path_file'];
 
-                                        // Tampilkan gambar sampul buku dalam slider
                                         echo '<div class="swiper-slide">';
                                         echo '<img src="assets/img/ebook/' . $row_buku["gambar_sampul"] . '" alt="' . $row_buku["judul"] . '" style="max-width: 60%; max-height: 20%;">';
                                         echo '</div>';
                                     } else {
-                                        echo "<p>Buku tidak ditemukan.</p>";
+                                        echo "<p>ebook tidak ditemukan.</p>";
                                     }
                                 } else {
-                                    echo "<p>ID buku tidak ditemukan.</p>";
+                                    echo "<p>ID ebook tidak ditemukan.</p>";
                                 }
                                 ?>
                             </div>
@@ -118,7 +110,7 @@ $total_komentar = mysqli_num_rows($data1);
                         <a href="../pengguna/" download class="btn btn-primary rounded-0" style="margin-top: 20px;">
                             <i class="bi bi-download"></i> Download PDF
                         </a>
-                        <!-- Tombol "Send to" -->
+                        <!-- Tombol "Send to"
                         <div class="btn-group" style="margin-top: 20px;">
                             <button class="btn btn-primary rounded-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #fff; border-color: #9E9E9E; color: #9E9E9E;">
                                 Send to &nbsp;
@@ -135,7 +127,7 @@ $total_komentar = mysqli_num_rows($data1);
                                     <a href="https://www.instagram.com/" target="_blank" class="dropdown-item" style="color: #9E9E9E;"><i class="bi bi-instagram"></i> Instagram</a>
                                 </li>
                             </ul>
-                        </div>
+                        </div> -->
                         <!-- Tombol "Buku Kertas" -->
                         <div class="btn-group" style="margin-top: 20px;">
                             <button class="btn btn-primary rounded-0" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="background-color: #fff; border-color: #9E9E9E; color: #9E9E9E;">
@@ -156,21 +148,16 @@ $total_komentar = mysqli_num_rows($data1);
                     </div>
                     <div class="col-lg-5">
                         <div class="portfolio-info">
-                            <h3>Ebook Information</h3>
+                            <h3>Informasi Ebook</h3>
                             <ul>
                                 <?php
-                                // Periksa apakah parameter ID buku ada di URL
                                 if (isset($_GET['id_buku'])) {
-                                    // Ambil ID buku dari URL
                                     $id_buku = $_GET['id_buku'];
 
-                                    // Query untuk mengambil informasi detail buku berdasarkan ID
                                     $query_buku = "SELECT buku.*, kategori.nama AS nama_kategori FROM buku INNER JOIN kategori ON buku.id_kategori = kategori.id_kategori WHERE buku.id_buku = $id_buku";
                                     $result_buku = mysqli_query($koneksi, $query_buku);
 
-                                    // Periksa apakah query berhasil dieksekusi dan apakah buku ditemukan
                                     if (mysqli_num_rows($result_buku) > 0) {
-                                        // Ambil data buku dari hasil query
                                         $row_buku = mysqli_fetch_assoc($result_buku);
 
                                         // Tampilkan informasi detail buku
@@ -185,11 +172,10 @@ $total_komentar = mysqli_num_rows($data1);
                                 }
                                 ?>
                             </ul>
-                            <!-- Ikon favorit -->
                             <i id="favorite-icon" class="bi bi-heart" style="font-size: 1rem; margin-top: 20px; cursor: pointer;"></i>
                         </div>
                         <div class="portfolio-description">
-                            <h2>Description</h2>
+                            <h2>Deskripsi</h2>
                             <p>
                                 <?php
                                 if (isset($row_buku)) {
@@ -255,7 +241,7 @@ $total_komentar = mysqli_num_rows($data1);
 
         <!-- Mungkin Anda Tertarik -->
         <div style="text-align: center; margin-top: 30px;">
-            <h3>You may be interested in</h3>
+            <h3>Anda mungkin tertarik dengan</h3>
             <hr style="width: 50%; margin: auto;">
         </div>
 
@@ -282,8 +268,6 @@ $total_komentar = mysqli_num_rows($data1);
                         }
                     }
 
-                    // Bagian untuk menampilkan buku di bawahnya
-                    // Query untuk menampilkan buku di bawahnya dengan kategori yang sama
                     $query_buku_bawahnya = "SELECT buku.*, kategori.nama AS nama_kategori FROM buku INNER JOIN kategori ON buku.id_kategori = kategori.id_kategori WHERE kategori.nama = '$kategori_buku'";
 
                     // Jika ada buku yang sudah ditampilkan di detail, tambahkan filter untuk menyaring buku-buku tersebut
@@ -308,7 +292,7 @@ $total_komentar = mysqli_num_rows($data1);
                                             <h4><?php echo $row_buku_bawahnya["judul"]; ?></h4>
                                             <p><?php echo $row_buku_bawahnya["nama_kategori"]; ?></p>
                                             <div class="portfolio-links">
-                                                <a href="assets/img/ebook/<?php echo $row_buku_bawahnya["gambar_sampul"]; ?>" data-gallery="portfolioGallery" class="portfokio-lightbox" title="<?php echo $row_buku_bawahnya["judul"]; ?>"><i class="bi bi-plus"></i></a>
+                                                <!-- <a href="assets/img/ebook/<?php echo $row_buku_bawahnya["gambar_sampul"]; ?>" data-gallery="portfolioGallery" class="portfokio-lightbox" title="<?php echo $row_buku_bawahnya["judul"]; ?>"><i class="bi bi-plus"></i></a> -->
                                                 <a href="detail_buku.php?id_buku=<?php echo $row_buku_bawahnya["id_buku"]; ?>" title="More Details"><i class="bi bi-eye"></i></a>
                                             </div>
                                         </div>
@@ -325,83 +309,190 @@ $total_komentar = mysqli_num_rows($data1);
                                 <div class="portfolio-wrap">
                                     <img src="assetpage/img/buku/book.png" class="img-fluid" alt="View All Ebooks">
                                     <div class="portfolio-info">
-                                        <h4>View All Ebooks</h4>
-                                        <p>Click here to view all ebooks</p>
+                                        <h4>Lihat Semua Ebook</h4>
+                                        <p>Klik dinini lihat semua ebook</p>
                                         <div class="portfolio-links">
                                             <a href="semua_buku.php" title="View All Ebooks"><i class="bi bi-three-dots"></i></a>
                                         </div>
                                     </div>
                                 </div>
                                 <div style="text-align:center;">
-                                    <h5>View All Ebooks</h5>
-                                    <p>Click here to view all ebooks</p>
+                                    <h5>VLihat Semua Ebook</h5>
+                                    <p>Klik dinini lihat semua ebook</p>
                                 </div>
                             </div>
                     <?php
                         }
                     } else {
-                        echo "Tidak ada data buku yang tersedia.";
+                        echo "Tidak ada data ebook yang serupa.";
                     }
                     ?>
                 </div>
             </div>
         </section><!-- End Portfolio Section -->
 
-        <!-- Tempat Komentar untuk Buku -->
-        <section id="tempat-komentar" class="testimonials">
-            <div class="container" data-aos="fade-up">
-                <header class="section-header text-center">
-                    <h2>Comments from this Ebook</h2>
-                    <p>Reader Testimonials on This ebook</p>
-                </header>
-                <div class="testimonials-slider swiper" data-aos="fade-up" data-aos-delay="200">
-                    <div class="swiper-wrapper">
-                        <?php
-                        // Periksa apakah ID buku ada dan valid
-                        if (isset($_GET['id_buku']) && is_numeric($_GET['id_buku'])) {
-                            $id_buku = $_GET['id_buku'];
+                <?php
+if (isset($_GET['id_buku']) && is_numeric($_GET['id_buku'])) {
+    $id_buku = (int)$_GET['id_buku'];
 
-                            // Lakukan query untuk mengambil ulasan dan rating dari tabel komentar
-                            $query_komentar = "SELECT komentar.*, pengguna.nama_pengguna 
-                        FROM komentar
-                        INNER JOIN pengguna ON komentar.id_pengguna = pengguna.id_pengguna
-                        WHERE komentar.id_buku = $id_buku";
-                            $result_komentar = mysqli_query($koneksi, $query_komentar);
+    $query_komentar = "SELECT komentar.*, pengguna.nama_pengguna, pengguna.profile, komentar.rating
+        FROM komentar
+        INNER JOIN pengguna ON komentar.id_pengguna = pengguna.id_pengguna
+        WHERE komentar.id_buku = $id_buku
+        ORDER BY komentar.tanggal_komentar DESC";
+    $result_komentar = mysqli_query($koneksi, $query_komentar);
+?>
 
-                            // Periksa apakah query berhasil dieksekusi
-                            if ($result_komentar && mysqli_num_rows($result_komentar) > 0) {
-                                // Loop untuk menampilkan setiap ulasan
-                                while ($row_komentar = mysqli_fetch_assoc($result_komentar)) {
-                                    // Sanitisasi data sebelum ditampilkan
-                                    $nama_pengguna = htmlspecialchars($row_komentar["nama_pengguna"]);
-                                    $isi_komentar = htmlspecialchars($row_komentar["isi_komentar"]);
-                                    $tanggal_komentar = htmlspecialchars($row_komentar["tanggal_komentar"]);
+<section>
+<div class="container my-5 py-5">
+    <div class="row d-flex justify-content-center">
+        <div class="col-md-12 col-lg-10 col-xl-8">
 
-                                    echo '<div class="swiper-slide">
-                    <div class="testimonial-item">
-                        <div class="text-center">
-                            <img src="assets/img/user.gif" alt="Avatar" style="max-width: 150px;" class="rounded-circle">
-                            <h5>' . $nama_pengguna . '</h5>
-                        </div>
-                        <div class="text-center">
-                            <h5>' . $isi_komentar . '</h5>
-                            <h6>Waktu: ' . $tanggal_komentar . '</h6>
+            <?php
+            if ($result_komentar && mysqli_num_rows($result_komentar) > 0) {
+                while ($row = mysqli_fetch_assoc($result_komentar)) {
+                    $id_komentar = (int)$row["id_komentar"];
+                    $id_pengguna_komentar = (int)$row["id_pengguna"];
+                    $nama_pengguna = htmlspecialchars($row["nama_pengguna"]);
+                    $isi_komentar = htmlspecialchars($row["isi_komentar"]);
+                    $tanggal_komentar = date('d M Y, H:i', strtotime($row["tanggal_komentar"]));
+                    $profile_image = !empty($row["profile"]) ? "assets/img/profile/" . htmlspecialchars($row["profile"]) : "https://mdbcdn.b-cdn.net/img/Photos/Avatars/default-avatar.webp";
+                    $rating = (float)$row['rating'];
+
+                    echo '
+                    <div style="display: flex; gap: 30px; margin-bottom: 40px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                        <div style="flex: 1;">
+                            <div style="display: flex; align-items: center; gap: 15px;">
+                                <img class="rounded-circle" src="' . $profile_image . '" alt="avatar" width="60" height="60" />
+                                <div>
+                                    <h6 class="fw-bold text-primary mb-1">' . $nama_pengguna . '</h6>
+                                    <p class="text-muted small mb-0">Shared publicly - ' . $tanggal_komentar . '</p>
+                                </div>
+                            </div>
+                            <div style="margin: 10px 0;">';
+
+                    $fullStars = floor($rating);
+                    $halfStar = ($rating - $fullStars) >= 0.5;
+                    $emptyStars = 5 - $fullStars - ($halfStar ? 1 : 0);
+
+                    for ($i = 0; $i < $fullStars; $i++) echo '<i class="bi bi-star-fill text-warning"></i>';
+                    if ($halfStar) echo '<i class="bi bi-star-half text-warning"></i>';
+                    for ($i = 0; $i < $emptyStars; $i++) echo '<i class="bi bi-star text-warning"></i>';
+
+                    echo '</div>
+                            <p style="white-space: pre-line;">' . nl2br($isi_komentar) . '</p>
+                            <div class="small d-flex justify-content-start" style="gap: 20px; align-items: center;">
+                                <a href="#" class="d-flex align-items-center text-decoration-none text-muted">
+                                    <i class="bi bi-hand-thumbs-up-fill text-primary mb-1 me-1"></i>Like
+                                </a>';
+
+                    if (isset($_SESSION['id_pengguna']) && (int)$_SESSION['id_pengguna'] === $id_pengguna_komentar) {
+                        echo '
+                                <a href="#" class="d-flex align-items-center text-decoration-none text-muted" data-bs-toggle="modal" data-bs-target="#editKomentarModal" 
+                                data-id_komentar="' . $id_komentar . '" data-isi_komentar="' . htmlspecialchars($isi_komentar, ENT_QUOTES) . '">
+                                    <i class="bi bi-pencil-fill text-primary mb-1 me-1"></i>Edit
+                                </a>
+                                <a href="#" class="d-flex align-items-center text-decoration-none text-muted" data-bs-toggle="modal" data-bs-target="#hapusKomentarModal" 
+                                data-id_komentar="' . $id_komentar . '">
+                                    <i class="bi bi-trash-fill me-2 text-primary mb-1"></i>Hapus
+                                </a>';
+                    }
+
+                    echo '</div></div></div>';
+                }
+            } else {
+                echo '<p class="text-center">Belum ada komentar untuk buku ini.</p>';
+            }
+            ?>
+
+            <?php if (isset($_SESSION['id_pengguna'])) : ?>
+                <!-- Form komentar tetap -->
+                <form id="comment-form" method="post" action="tambah_komentar.php" style="background: transparent; margin-top: 20px;">
+                    <input type="hidden" name="id_buku" value="<?php echo htmlspecialchars($id_buku ?? ''); ?>">
+                    <input type="hidden" name="rating" id="rating-value" value="0">
+
+                    <div class="d-flex gap-3 align-items-center">
+                        <img class="rounded-circle" src="<?php echo isset($_SESSION['profile']) ? 'assets/img/profile/' . htmlspecialchars($_SESSION['profile']) : 'https://mdbcdn.b-cdn.net/img/Photos/Avatars/default-avatar.webp'; ?>" alt="avatar" width="50" height="50" />
+
+                        <div style="flex: 1;">
+                            <div id="star-rating" style="font-size: 24px; color: #ddd; cursor: pointer; user-select: none; margin-bottom: 5px; display: inline-block;">
+                                <?php for ($i = 1; $i <= 5; $i++) : ?>
+                                    <i class="bi bi-star" data-value="<?php echo $i; ?>"></i>
+                                <?php endfor; ?>
+                            </div>
+
+                            <textarea id="isi_komentar" name="isi_komentar" class="form-control" rows="3" placeholder="Tulis komentar..." required style="resize: vertical;"></textarea>
                         </div>
                     </div>
-                </div><!-- End testimonial item -->';
-                                }
-                            } else {
-                                echo "<div class='swiper-slide'><div class='testimonial-item'><p class='text-center'>Belum ada komentar untuk buku ini.</p></div></div>";
+
+                    <div class="mt-2 text-end">
+                        <button type="submit" class="btn btn-primary btn-sm">Kirim Komentar</button>
+                        <button type="reset" class="btn btn-outline-primary btn-sm ms-2">Batal</button>
+                    </div>
+                </form>
+
+                <script>
+                    const stars = document.querySelectorAll('#star-rating i');
+                    const ratingInput = document.getElementById('rating-value');
+                    let selectedRating = 0;
+
+                    stars.forEach((star, idx) => {
+                        star.addEventListener('mousemove', (e) => {
+                            const rect = star.getBoundingClientRect();
+                            const mouseX = e.clientX;
+                            const starMiddle = rect.left + rect.width / 2;
+                            let hoverValue = idx + 1;
+
+                            if (mouseX < starMiddle) {
+                                hoverValue -= 0.5;
                             }
-                        } else {
-                            echo "<div class='swiper-slide'><div class='testimonial-item'><p class='text-center'>ID buku tidak valid.</p></div></div>";
-                        }
-                        ?>
-                    </div>
-                    <div class="swiper-pagination"></div>
-                </div>
-            </div>
-        </section> <!-- End Tempat Komentar untuk Buku -->
+                            highlightStars(hoverValue);
+                        });
+
+                        star.addEventListener('click', (e) => {
+                            const rect = star.getBoundingClientRect();
+                            const mouseX = e.clientX;
+                            const starMiddle = rect.left + rect.width / 2;
+                            selectedRating = idx + 1;
+
+                            if (mouseX < starMiddle) {
+                                selectedRating -= 0.5;
+                            }
+
+                            ratingInput.value = selectedRating;
+                            highlightStars(selectedRating);
+                        });
+
+                        star.addEventListener('mouseout', () => {
+                            highlightStars(selectedRating);
+                        });
+                    });
+
+                    function highlightStars(rating) {
+                        stars.forEach((star, idx) => {
+                            const starValue = idx + 1;
+                            if (starValue <= rating) {
+                                star.className = 'bi bi-star-fill text-warning';
+                            } else if (starValue - 0.5 === rating) {
+                                star.className = 'bi bi-star-half text-warning';
+                            } else {
+                                star.className = 'bi bi-star';
+                                star.classList.remove('text-warning');
+                            }
+                        });
+                    }
+                </script>
+            <?php else : ?>
+                <p class="text-center">Silakan <a href="pengguna/">login</a> untuk menulis komentar.</p>
+            <?php endif; ?>
+        </div>
+    </div>
+</div>
+</section>
+
+<?php } else {
+    echo '<p class="text-center">ID buku tidak valid.</p>';
+} ?>
 
 
     </main><!-- End #main -->

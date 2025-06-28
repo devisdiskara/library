@@ -4,10 +4,6 @@ if (isset($_GET['page'])) {
     $page = $_GET['page'];
 }
 switch ($page) {
-    case 'rak':
-        $page = "include 'rak.php';";
-        break;
-
     case 'kategori':
         $page = "include 'kategori.php';";
         break;
@@ -16,19 +12,19 @@ switch ($page) {
         $page = "include 'buku.php';";
         break;
 
-    case 'petugas':
-        $page = "include 'kelola_petugas.php';";
+    case 'admin':
+        $page = "include 'admin.php';";
         break;
 
-    case 'pinjam':
-        $page = "include 'pinjam.php';";
+    case 'profile_admin':
+        $page = "include 'profile_admin.php';";
         break;
 
     case 'kembali':
         $page = "include 'kembali.php';";
         break;
-    case 'laporan':
-        $page = "include 'laporan.php';";
+    case 'pengguna':
+        $page = "include 'pengguna.php';";
         break;
     case 'profile':
         $page = "include 'edit_profile.php';";
@@ -39,6 +35,7 @@ switch ($page) {
     case 'denda':
         $page = "include 'denda.php';";
         break;
+        
 
     default:
         $page = "include 'home.php';";

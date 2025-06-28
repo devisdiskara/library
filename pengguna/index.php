@@ -1,71 +1,71 @@
 <?php
-// Include koneksi.php untuk menghubungkan ke database
-include '../koneksi.php';
-
-// Mulai sesi
 session_start();
+require '../koneksi.php';
 
-// Cek jika pengguna sudah login, maka arahkan ke dashboard
 if (isset($_SESSION['login_pa'])) {
-  header('location: page.php');
-  exit;
+    header('Location: page.php');
+    exit;
 }
 
-// Proses login
+$error = '';
+
 if (isset($_POST['btnMasuk'])) {
-  $username = $_POST['username'] ?? '';
-  $kata_sandi = $_POST['kata_sandi'] ?? '';
+    $username = trim($_POST['username']);
+    $password = $_POST['kata_sandi'];
 
-  // Pengecekan untuk akun admin
-  if ($username === 'admin' && $kata_sandi === 'X5&gR9@4Nz') {
-    // Set session untuk admin
-    $_SESSION['id_pengguna'] = 'admin_id'; // Set ID admin sesuai kebutuhan Anda
-    $_SESSION['username'] = $username;
-    $_SESSION['email'] = 'admin@domain.com'; // Set email admin sesuai kebutuhan Anda
-    $_SESSION['login_pa'] = true;
-
-    // Redirect ke halaman admin
-    header('Location: ../admin/dashboard.php?page=home'); // Ganti dengan halaman admin yang sesuai
-    exit;
-  } else {
-    // Pengecekan untuk akun pengguna biasa
-    if (!empty($username) && !empty($kata_sandi)) {
-      $data = mysqli_query($koneksi, "SELECT * FROM pengguna WHERE username = '$username'");
-      if (mysqli_num_rows($data) === 1) {
-        $baris = mysqli_fetch_assoc($data);
-        if (password_verify($kata_sandi, $baris['kata_sandi'])) {
-          // Set session data
-          $_SESSION['id_pengguna'] = $baris['id_pengguna'];
-          $_SESSION['username'] = $baris['username'];
-          $_SESSION['email'] = $baris['email'];
-          $_SESSION['login_pa'] = true;
-
-          // Redirect ke dashboard pengguna
-          header('Location: page.php');
-          exit;
-        } else {
-          echo "<script>alert('Username atau kata sandi Anda salah')</script>";
-        }
-      } else {
-        echo "<script>alert('Username atau kata sandi Anda salah')</script>";
-      }
-    } else {
-      echo "<script>alert('Harap isi username dan kata sandi')</script>";
+    // 1. SUPER ADMIN (hardcoded)
+    if ($username === 'admin' && $password === 'admin123') {
+        $_SESSION['login_pa'] = true;
+        $_SESSION['role'] = 'super_admin';
+        $_SESSION['username'] = 'admin';
+        $_SESSION['foto'] = 'avatar.avif';
+        header('Location: ../admin/dashboard.php');
+        exit;
     }
-  }
+
+    // 2. ADMIN dari database
+    $adminQuery = mysqli_query($koneksi, "SELECT * FROM admin WHERE username='$username'");
+    if (mysqli_num_rows($adminQuery) === 1) {
+        $admin = mysqli_fetch_assoc($adminQuery);
+        if (password_verify($password, $admin['password'])) {
+            $_SESSION['login_pa'] = true;
+            $_SESSION['role'] = 'admin';
+            $_SESSION['id_admin'] = $admin['id'];
+            $_SESSION['username'] = $admin['username'];
+            $_SESSION['foto'] = $admin['foto'];
+            header('Location: ../admin/dashboard.php');
+            exit;
+        }
+    }
+
+    // 3. PENGGUNA
+    $userQuery = mysqli_query($koneksi, "SELECT * FROM pengguna WHERE username='$username'");
+    if (mysqli_num_rows($userQuery) === 1) {
+        $user = mysqli_fetch_assoc($userQuery);
+        if (password_verify($password, $user['kata_sandi'])) {
+            $_SESSION['login_pa'] = true;
+            $_SESSION['role'] = 'pengguna';
+            $_SESSION['id_pengguna'] = $user['id_pengguna'];
+            $_SESSION['username'] = $user['username'];
+            $_SESSION['foto'] = $user['profile'];
+            header('Location: page.php');
+            exit;
+        }
+    }
+
+    $error = "Username atau password salah!";
 }
 ?>
-
-
 <!DOCTYPE html>
-<html lang="en" class="light-style customizer-hide" dir="ltr" data-theme="theme-default" data-aslog-path="aslog/" data-template="vertical-menu-template-free">
+<html lang="id" class="light-style customizer-hide" dir="ltr" data-theme="theme-default">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Login - Flexilibrary</title>
+  <link rel="icon" type="image/x-icon" href="../assets/img/favicon/log.ico" />
   <link rel="stylesheet" href="../aslog/vendor/fonts/boxicons.css" />
-  <link rel="stylesheet" href="../aslog/vendor/css/core.css" class="template-customizer-core-css" />
-  <link rel="stylesheet" href="../aslog/vendor/css/theme-default.css" class="template-customizer-theme-css" />
+  <link rel="stylesheet" href="../aslog/vendor/css/core.css" />
+  <link rel="stylesheet" href="../aslog/vendor/css/theme-default.css" />
   <link rel="stylesheet" href="../aslog/css/demo.css" />
   <link rel="stylesheet" href="../aslog/vendor/libs/perfect-scrollbar/perfect-scrollbar.css" />
   <link rel="stylesheet" href="../aslog/vendor/css/pages/page-auth.css" />
@@ -86,15 +86,22 @@ if (isset($_POST['btnMasuk'])) {
                 <span class="app-brand-text demo text-body fw-bolder">Flexilibrary</span>
               </a>
             </div>
-            <h4 class="mb-2">Welcome to Flexilibrary!</h4>
-            <p class="mb-4">Please login to your account</p>
-            <form id="formAuthentication" class="mb-3" action="" method="POST">
+            <h4 class="mb-2">Selamat datang di Flexilibrary!</h4>
+            <p class="mb-4">Silakan masuk ke akun Anda</p>
+
+            <?php if ($error): ?>
+              <div class="alert alert-danger text-center" id="errorAlert">
+                <?= htmlspecialchars($error) ?>
+              </div>
+            <?php endif; ?>
+
+            <form class="mb-3" action="" method="POST">
               <div class="mb-3">
                 <label for="username" class="form-label">Username</label>
                 <input type="text" class="form-control" id="username" name="username" placeholder="Masukkan username Anda" autofocus required>
               </div>
               <div class="mb-3">
-                <label class="form-label" for="password">Password</label>
+                <label class="form-label" for="kata_sandi">Password</label>
                 <div class="input-group input-group-merge">
                   <input type="password" id="kata_sandi" class="form-control" name="kata_sandi" placeholder="Masukkan kata sandi Anda" required>
                   <span class="input-group-text cursor-pointer" id="togglePassword">
@@ -106,22 +113,20 @@ if (isset($_POST['btnMasuk'])) {
                 <button class="btn btn-primary d-grid w-100" type="submit" name="btnMasuk">Masuk</button>
               </div>
             </form>
+
             <p class="text-center">
-              <span>Don't have an account yet?</span>
-              <a href="daftar.php">
-                <span>Register now</span>
-              </a>
+              <span>Belum punya akun?</span> <a href="daftar.php"><span>Buat akun sekarang</span></a>
             </p>
             <p class="text-center">
-              <a href="forgot_password.php">
-                <span>Forgot your password?</span>
-              </a>
+              <a href="lupa_password.php"><span>Lupa kata sandi Anda?</span></a>
             </p>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  <!-- JS & Interaksi -->
   <script src="../aslog/vendor/libs/jquery/jquery.js"></script>
   <script src="../aslog/vendor/libs/popper/popper.js"></script>
   <script src="../aslog/vendor/js/bootstrap.js"></script>
@@ -130,19 +135,25 @@ if (isset($_POST['btnMasuk'])) {
   <script src="../aslog/js/main.js"></script>
 
   <script>
+    // Toggle password
     const togglePassword = document.querySelector('#togglePassword');
-    const password = document.querySelector('#kata_sandi');
+    const passwordInput = document.querySelector('#kata_sandi');
 
-    togglePassword.addEventListener('click', function (e) {
-      // toggle the type attribute
-      const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-      password.setAttribute('type', type);
-      
-      // toggle the eye slash icon
+    togglePassword.addEventListener('click', function () {
+      const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+      passwordInput.setAttribute('type', type);
       this.querySelector('i').classList.toggle('bx-hide');
       this.querySelector('i').classList.toggle('bx-show');
     });
+
+    // Auto-hide alert
+    const errorAlert = document.getElementById('errorAlert');
+    if (errorAlert) {
+      setTimeout(() => {
+        errorAlert.style.opacity = '0';
+        setTimeout(() => errorAlert.remove(), 500);
+      }, 3000);
+    }
   </script>
 </body>
 </html>
-

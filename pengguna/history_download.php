@@ -5,10 +5,21 @@ session_start();
 $id_pengguna = $_SESSION['id_pengguna'];
 
 $query = "
-    SELECT buku.id_buku, buku.judul, buku.pengarang, buku.gambar_sampul, buku.jumlah_unduhan, buku.rating, buku.tanggal_upload 
-    FROM unduhan 
-    INNER JOIN buku ON unduhan.id_buku = buku.id_buku 
-    WHERE unduhan.id_pengguna = $id_pengguna";
+    SELECT 
+        b.id_buku,
+        b.judul,
+        b.pengarang,
+        b.gambar_sampul,
+        b.tanggal_upload,
+        (SELECT COUNT(*) FROM unduhan WHERE id_buku = b.id_buku) AS jumlah_unduhan,
+        IFNULL(ROUND(AVG(k.rating), 1), 0) AS rating
+    FROM unduhan u
+    JOIN buku b ON u.id_buku = b.id_buku
+    LEFT JOIN komentar k ON k.id_buku = b.id_buku
+    WHERE u.id_pengguna = $id_pengguna
+    GROUP BY b.id_buku
+    ORDER BY u.waktu_unduh DESC
+";
 
 $result = mysqli_query($koneksi, $query);
 ?>
@@ -112,10 +123,10 @@ $result = mysqli_query($koneksi, $query);
         <section class="breadcrumbs">
             <div class="container">
                 <ol>
-                    <li><a href="page.php">Home</a></li>
+                    <li><a href="page.php">Beranda</a></li>
                     <li>Downloads</li>
                 </ol>
-                <h2>Downloaded Books</h2>
+                <h2>Download Ebook</h2>
             </div>
         </section><!-- End Breadcrumbs -->
 
@@ -125,7 +136,7 @@ $result = mysqli_query($koneksi, $query);
                     <?php if (mysqli_num_rows($result) > 0) : ?>
                         <!-- Tampilkan daftar buku yang diunduh -->
                     <?php else : ?>
-                        <p class="no-downloads">No books have been downloaded yet.</p>
+                        <p class="no-downloads">Belum ada buku yang diunduh.</p>
                     <?php endif; ?>
                 </div>
                 <table class="table" border="1">

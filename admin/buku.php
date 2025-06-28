@@ -1,3 +1,33 @@
+<?php if (isset($_GET['status'])): ?>
+    <?php if ($_GET['status'] == 'sukses'): ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Data buku berhasil disimpan!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php elseif ($_GET['status'] == 'gagal'): ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            Gagal menyimpan data buku!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php elseif ($_GET['status'] == 'ubah_sukses'): ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Data buku berhasil diubah!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php elseif ($_GET['status'] == 'hapus_sukses'): ?>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            Data buku berhasil dihapus!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php elseif ($_GET['status'] == 'hapus_gagal'): ?>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            Gagal menghapus data buku!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>
+
+
 <!-- tampilan buku -->
 <div class="card">
     <h5 class="card-header">
@@ -19,73 +49,65 @@
             </thead>
             <tbody class="table-border-bottom-0">
                 <?php
-                // Set default query
                 $query = "SELECT buku.id_buku, buku.judul, buku.pengarang, kategori.nama, buku.gambar_sampul, buku.jumlah_unduhan, buku.rating 
                           FROM buku 
                           JOIN kategori ON buku.id_kategori = kategori.id_kategori";
 
-                // Periksa apakah ada parameter pencarian yang dikirimkan
                 if (isset($_GET['search']) && !empty($_GET['search'])) {
                     $search = $_GET['search'];
-                    // Ubah query untuk mencari judul yang cocok dengan kata kunci pencarian
                     $query .= " WHERE buku.judul LIKE '%$search%'";
                 }
 
-                // Periksa apakah ada parameter kategori yang dipilih
                 if (isset($_GET['category']) && !empty($_GET['category'])) {
                     $category_id = $_GET['category'];
-                    // Tambahkan kondisi WHERE untuk memfilter berdasarkan kategori yang dipilih
-                    $query .= " AND buku.id_kategori = $category_id";
+                    $query .= (strpos($query, 'WHERE') !== false ? " AND " : " WHERE ") . "buku.id_kategori = $category_id";
                 }
 
-                // Eksekusi query
                 $query_result = mysqli_query($koneksi, $query);
 
-                // Menginisialisasi array untuk menyimpan hasil query
                 $dataBuku = array();
 
-                // Memasukkan hasil query ke dalam array
                 while ($row = mysqli_fetch_assoc($query_result)) {
                     $dataBuku[] = $row;
                 }
 
-                // Mengurutkan array berdasarkan id buku secara ascending
-                usort($dataBuku, function ($a, $b) {
-                    return $a['id_buku'] - $b['id_buku'];
-                });
+                if (count($dataBuku) === 0) {
+                echo "<tr><td colspan='8' class='text-center text-muted'>Tidak ada data eBook yang tersedia.</td></tr>";
+                } else {
+                    usort($dataBuku, function ($a, $b) {
+                        return $a['id_buku'] - $b['id_buku'];
+                    });
 
-                // Menghitung jumlah total buku
-                $total_buku = count($dataBuku);
-
-                // Menampilkan data buku dengan nomor buku yang sesuai dengan urutan query
-                foreach ($dataBuku as $index => $buku) {
-                    echo "<tr>";
-                    echo "<td>" . ($index + 1) . "</td>"; // Nomor buku dihitung dari indeks array + 1
-                    echo "<td>" . $buku['judul'] . "</td>";
-                    echo "<td>" . $buku['pengarang'] . "</td>";
-                    echo "<td>" . $buku['nama'] . "</td>";
-                    echo "<td><img src='../assets/img/ebook/" . $buku['gambar_sampul'] . "' alt='gambar' width='100'></td>";
-                    echo "<td>" . $buku['jumlah_unduhan'] . "</td>";
-                    echo "<td>" . $buku['rating'] . "</td>";
-                    echo "<td>
-                            <div class='dropdown'>
-                                <button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'>
-                                    <i class='bx bx-dots-vertical-rounded'></i>
-                                </button>
-                                <div class='dropdown-menu'>
-                                    <a class='dropdown-item' href='#' data-bs-toggle='modal' data-bs-target='#modalUbahBuku" . $buku['id_buku'] . "'><i class='bx bx-edit-alt me-1'></i>Edit</a>
-                                    <a class='dropdown-item' href='#' data-bs-toggle='modal' data-bs-target='#modalHapusBuku" . $buku['id_buku'] . "'><i class='bx bx-trash me-1'></i>Delete</a>
+                    foreach ($dataBuku as $index => $buku) {
+                        echo "<tr>";
+                        echo "<td>" . ($index + 1) . "</td>";
+                        echo "<td>" . htmlspecialchars($buku['judul']) . "</td>";
+                        echo "<td>" . htmlspecialchars($buku['pengarang']) . "</td>";
+                        echo "<td>" . htmlspecialchars($buku['nama']) . "</td>";
+                        echo "<td><img src='../assets/img/ebook/" . htmlspecialchars($buku['gambar_sampul']) . "' alt='gambar' style='width: 70px; height: 100px; object-fit: cover; border: 1px solid #ccc;'></td>";
+                        echo "<td>" . (int)$buku['jumlah_unduhan'] . "</td>";
+                        echo "<td>" . (float)$buku['rating'] . "</td>";
+                        echo "<td>
+                                <div class='dropdown'>
+                                    <button type='button' class='btn p-0 dropdown-toggle hide-arrow' data-bs-toggle='dropdown'>
+                                        <i class='bx bx-dots-vertical-rounded'></i>
+                                    </button>
+                                    <div class='dropdown-menu'>
+                                        <a class='dropdown-item' href='#' data-bs-toggle='modal' data-bs-target='#modalUbahBuku" . $buku['id_buku'] . "'><i class='bx bx-edit-alt me-1'></i>Edit</a>
+                                        <a class='dropdown-item' href='#' data-bs-toggle='modal' data-bs-target='#modalHapusBuku" . $buku['id_buku'] . "'><i class='bx bx-trash me-1'></i>Delete</a>
+                                    </div>
                                 </div>
-                            </div>
-                          </td>";
-                    echo "</tr>";
+                              </td>";
+                        echo "</tr>";
+                    }
                 }
                 ?>
             </tbody>
         </table>
     </div>
 </div>
-<!-- tampilan buku -->
+<!-- akhir tampilan buku -->
+
 
 <!-- modal hapus buku -->
 <style>
@@ -110,7 +132,7 @@
 <?php
 $query = mysqli_query($koneksi, "SELECT * FROM buku");
 while ($data = mysqli_fetch_assoc($query)) {
-    echo "<div class='modal modal-fade' id='modalHapusBuku" . $data['id_buku'] . "' data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true'>
+    echo "<div class='modal modal fade' id='modalHapusBuku" . $data['id_buku'] . "' data-bs-backdrop='static' data-bs-keyboard='false' tabindex='-1' aria-labelledby='staticBackdropLabel' aria-hidden='true'>
           <div class='modal-dialog modal-sm'>
             <div class='modal-content'>
               <div class='modal-body'>
@@ -138,6 +160,12 @@ while ($data = mysqli_fetch_assoc($query)) {
 <?php
 $query = mysqli_query($koneksi, "SELECT buku.id_buku, buku.judul, buku.id_kategori, buku.gambar_sampul, buku.pengarang, buku.deskripsi, buku.path_file, buku.link_shopee, buku.link_tokopedia, kategori.nama FROM buku JOIN kategori ON buku.id_kategori = kategori.id_kategori");
 while ($row = mysqli_fetch_assoc($query)) :
+    // Ambil file_id dari path_file yang sudah dimodifikasi
+    $file_id = '';
+    if (strpos($row['path_file'], 'id=') !== false) {
+        $file_id = explode('id=', $row['path_file'])[1];
+    }
+    $original_drive_link = $file_id ? 'https://drive.google.com/file/d/' . $file_id . '/view' : '';
 ?>
     <div class="modal modal-fade" id="modalUbahBuku<?php echo $row['id_buku']; ?>" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -150,104 +178,93 @@ while ($row = mysqli_fetch_assoc($query)) :
                     <form action="crud_buku.php" method="POST" enctype="multipart/form-data">
                         <input type="hidden" name="id_buku" value="<?php echo $row['id_buku']; ?>">
                         <input type="hidden" name="gambarLama" value="<?php echo $row['gambar_sampul']; ?>">
-                        <div class="row">
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Judul</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group input-group-merge">
-                                        <span id="nama" class="input-group-text"><i class="bx bx-book"></i></span>
-                                        <input type="text" class="form-control" name="judul" value="<?php echo $row['judul']; ?>">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Kategori</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group input-group-merge">
-                                        <span class="input-group-text"><i class="bx bx-category"></i></span>
-                                        <select name="id_kategori" class="form-select" id="">
-                                            <option value="<?php echo $row['id_kategori']; ?>"><?php echo $row['nama']; ?></option>
-                                            <?php
-                                            $qjkat = mysqli_query($koneksi, "SELECT * FROM kategori");
-                                            while ($djkat = mysqli_fetch_assoc($qjkat)) {
-                                                $selected = "";
-                                                if ($djkat['id_kategori'] == $row['id_kategori']) {
-                                                    $selected = "selected";
-                                                }
-                                                echo "<option value='" . $djkat['id_kategori'] . "' " . $selected . ">" . $djkat['nama'] . "</option>";
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Gambar Sampul</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group input-group-merge">
-                                        <span id="nama" class="input-group-text"><i class="bx bx-image"></i></span>
-                                        <input type="file" class="form-control" name="gambar_sampul">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Pengarang</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group input-group-merge">
-                                        <span id="nama" class="input-group-text"><i class="bx bx-user"></i></span>
-                                        <input type="text" class="form-control" name="pengarang" value="<?php echo $row['pengarang']; ?>">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Deskripsi</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group input-group-merge">
-                                        <span id="nama" class="input-group-text"><i class="bx bx-file"></i></span>
-                                        <textarea class="form-control" name="deskripsi"><?php echo $row['deskripsi']; ?></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">File Ebook</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group input-group-merge">
-                                        <span id="nama" class="input-group-text"><i class="bx bx-file"></i></span>
-                                        <input type="file" class="form-control" name="file_baru">
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Link Shopee</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group input-group-merge">
-                                        <span id="nama" class="input-group-text"><i class="bx bxl-shopee"></i></span>
-                                        <input type="text" class="form-control" name="link_shopee" value="<?php echo $row['link_shopee']; ?>">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row mb-3">
-                                <label class="col-sm-2 col-form-label" for="basic-icon-default-fullname">Link Tokopedia</label>
-                                <div class="col-sm-10">
-                                    <div class="input-group input-group-merge">
-                                        <span id="nama" class="input-group-text"><i class="bx bxl-tokopedia"></i></span>
-                                        <input type="text" class="form-control" name="link_tokopedia" value="<?php echo $row['link_tokopedia']; ?>">
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="mb-3">
+                            <label class="form-label">Judul Buku</label>
+                            <input type="text" class="form-control" name="judul" value="<?php echo $row['judul']; ?>" required>
                         </div>
-                        <div class="row justify-content-end">
-                            <div class="col-sm-10">
-                                <button type="submit" name="btnUbah" class="btn btn-primary">Simpan Perubahan</button>
-                            </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Pengarang</label>
+                            <input type="text" class="form-control" name="pengarang" value="<?php echo $row['pengarang']; ?>" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Deskripsi</label>
+                            <textarea class="form-control" name="deskripsi" required><?php echo $row['deskripsi']; ?></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Gambar Sampul</label>
+                            <input type="file" class="form-control" name="gambar_sampul">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Link File Ebook</label>
+                            <input type="url" class="form-control link-drive-edit" name="link_drive" id="link_drive_<?php echo $row['id_buku']; ?>" placeholder="Masukkan link Google Drive asli" value="<?php echo $original_drive_link; ?>">
+                        </div>
+
+                        <div class="mb-3">
+                            <button type="button" class="btn btn-warning" onclick="modifyLinkEdit(<?php echo $row['id_buku']; ?>)">Modifikasi Link</button>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Link Download Otomatis</label>
+                            <input type="url" class="form-control" name="path_file" id="path_file_<?php echo $row['id_buku']; ?>" value="<?php echo $row['path_file']; ?>" readonly required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Kategori</label>
+                            <select name="id_kategori" class="form-select" required>
+                                <?php
+                                $qjkat = mysqli_query($koneksi, "SELECT * FROM kategori");
+                                while ($djkat = mysqli_fetch_assoc($qjkat)) {
+                                    $selected = ($djkat['id_kategori'] == $row['id_kategori']) ? 'selected' : '';
+                                    echo "<option value='" . $djkat['id_kategori'] . "' $selected>" . $djkat['nama'] . "</option>";
+                                }
+                                ?>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Link Shopee</label>
+                            <input type="url" class="form-control" name="link_shopee" value="<?php echo $row['link_shopee']; ?>">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Link Tokopedia</label>
+                            <input type="url" class="form-control" name="link_tokopedia" value="<?php echo $row['link_tokopedia']; ?>">
+                        </div>
+
+                        <div class="d-grid">
+                            <button type="submit" name="btnUbah" class="btn btn-primary">Simpan Perubahan</button>
                         </div>
                     </form>
                 </div>
-            </div>
+            </div> 
         </div>
     </div>
 <?php endwhile; ?>
+
+<script>
+function modifyLinkEdit(idBuku) {
+    const driveInput = document.getElementById('link_drive_' + idBuku);
+    const pathFileInput = document.getElementById('path_file_' + idBuku);
+    const driveLink = driveInput.value;
+
+    let fileID = '';
+    if (driveLink.includes('drive.google.com/file/d/')) {
+        fileID = driveLink.split('/d/')[1].split('/')[0];
+        const modifiedLink = `https://drive.google.com/uc?export=download&id=${fileID}`;
+        pathFileInput.value = modifiedLink;
+    } else {
+        alert('Link Google Drive tidak valid. Pastikan Anda memasukkan link yang benar.');
+    }
+}
+</script>
+
+
+
 
 <!-- Modal Tambah Buku -->
 <div class="modal fade" id="modalTambahBuku" tabindex="-1" aria-labelledby="modalTambahBukuLabel" aria-hidden="true">
